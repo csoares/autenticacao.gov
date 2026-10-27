@@ -4,12 +4,12 @@ TEMPLATE = app
 
 macx: ICON = appicon.icns
 
-QT += quick quickcontrols2 concurrent
+QT += quick quickcontrols2 concurrent core5compat
 
 QT += widgets
 QT += printsupport
 
-CONFIG += c++11
+CONFIG += c++17
 
 QMAKE_CFLAGS += -fvisibility=hidden
 QMAKE_CXXFLAGS += -fvisibility=hidden
@@ -24,7 +24,7 @@ SOURCES += main.cpp \
     can_cache.cpp \
     concurrent.cpp
 
-INCLUDEPATH += /usr/include/poppler/qt5/
+INCLUDEPATH += /usr/include/poppler/qt6/
 INCLUDEPATH += ../CMD/services
 INCLUDEPATH += ../applayer
 INCLUDEPATH += ../common
@@ -39,7 +39,7 @@ MOC_DIR = build
 
 #Include paths for MacOS third-party libraries
 macx: INCLUDEPATH += $$DEPS_DIR/openssl-3/include
-macx: INCLUDEPATH += $$DEPS_DIR/poppler/include/poppler/qt5/
+macx: INCLUDEPATH += $$DEPS_DIR/poppler/include/poppler/qt6/
 macx: INCLUDEPATH += $$DEPS_DIR/libcurl/include
 macx: INCLUDEPATH += $$DEPS_DIR/libzip/include
 macx: INCLUDEPATH += $$DEPS_DIR/cJSON-1.7.15/include
@@ -54,7 +54,7 @@ unix:!macx: LIBS += -Wl,-rpath-link,../lib
 
 #pteid-scap needs to be before its dependencies here
 LIBS += -L../lib -lpteidscap -lpteidcommon -lpteidapplayer -lpteidlib  \
-        -lssl -lcrypto -lpoppler-qt5 -lCMDServices -lcurl -lzip -lcjson
+        -lssl -lcrypto -lpoppler-qt6 -lCMDServices -lcurl -lzip -lcjson
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

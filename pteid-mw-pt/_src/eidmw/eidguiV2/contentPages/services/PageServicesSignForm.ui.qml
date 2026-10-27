@@ -13,7 +13,7 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.5
 import Qt.labs.platform 1.0
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts 1.3
 import eidguiV2 1.0
 

@@ -115,9 +115,9 @@ PageDefinitionsSignatureForm {
 
     propertyFileDialog {
         onAccepted: {
-            /*console.log("You chose file(s): " + propertyFileDialog.fileUrls)
-            console.log("Adding file: " + propertyFileDialog.fileUrls[0])*/
-            var path = propertyFileDialog.fileUrls[0];
+            /*console.log("You chose file(s): " + propertyFileDialog.files)
+            console.log("Adding file: " + propertyFileDialog.files[0])*/
+            var path = propertyFileDialog.files[0];
 
             filesModel.clear()
             filesModel.append({

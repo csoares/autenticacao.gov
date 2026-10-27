@@ -9,8 +9,8 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.1
-import QtQuick.Dialogs 1.0
-import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
+import Qt5Compat.GraphicalEffects
 
 /* Constants imports */
 import "../../scripts/Constants.js" as Constants
@@ -323,9 +323,8 @@ Item {
             FileDialog {
                 id: fileDialog
                 title: qsTranslate("Popup File", "STR_POPUP_FILE_INPUT")
-                folder: shortcuts.home
+                folder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
                 modality: Qt.WindowModal
-                selectMultiple: false
                 nameFilters: ["Image files (*.bmp *.jpeg *.jpg *.png)", "All files (*)"]
                 Component.onCompleted: visible = false
             }

@@ -21,7 +21,7 @@ jar.path = $${INSTALL_DIR_LIB}/pteid_jni/
 target.path = $${INSTALL_DIR_LIB}
 INSTALLS += target jar
 
-QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
+QMAKE_APPLE_DEVICE_ARCHS=$$PTEID_MACOS_ARCHS
 
 CONFIG -= warn_on qt
 QMAKE_CXXFLAGS += -fno-strict-aliasing

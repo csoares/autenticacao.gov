@@ -14,7 +14,7 @@ message("Version $$VERSION")
 target.path = $${INSTALL_DIR_LIB}
 INSTALLS += target
 
-QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
+QMAKE_APPLE_DEVICE_ARCHS=$$PTEID_MACOS_ARCHS
 
 CONFIG -= qt
 

@@ -15,7 +15,7 @@
 #include <QString>
 #include <QVector>
 #include <QDate>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <cstdio>
 #include <QQuickImageProvider>
 #include <QDesktopServices>
@@ -2497,7 +2497,7 @@ QPixmap PDFPreviewImageProvider::requestPixmap(const QString &id, QSize *size, c
 
 	if (m_docs.find(m_filePath) == m_docs.end()) {
 
-		Poppler::Document *newdoc = Poppler::Document::load(pdf_path);
+		Poppler::Document *newdoc = Poppler::Document::load(pdf_path).release();
 		if (!newdoc) {
 			qDebug() << "Failed to load PDF file";
 			return QPixmap();
@@ -2525,7 +2525,7 @@ QPixmap PDFPreviewImageProvider::requestPixmap(const QString &id, QSize *size, c
 }
 
 QSize PDFPreviewImageProvider::getPageSize(int page) {
-	Poppler::Page *popplerPage = m_docs.at(m_filePath)->page(page - 1);
+	std::unique_ptr<Poppler::Page> popplerPage = m_docs.at(m_filePath)->page(page - 1);
 	return popplerPage->pageSize();
 }
 
@@ -2535,10 +2535,10 @@ QPixmap PDFPreviewImageProvider::renderPDFPage(unsigned int page) {
 		qDebug() << "Pdf to be rendered was unloaded!";
 		return QPixmap();
 	}
-	// Document starts at page 0 in the poppler-qt5 API
-	Poppler::Page *popplerPage = m_docs.at(m_filePath)->page(page - 1);
+	// Document starts at page 0 in the poppler-qt6 API
+	std::unique_ptr<Poppler::Page> popplerPage = m_docs.at(m_filePath)->page(page - 1);
 
-	if (popplerPage == NULL) {
+	if (!popplerPage) {
 		qDebug() << "Failed to get page object: " << page;
 		return QPixmap();
 	}
@@ -2547,7 +2547,7 @@ QPixmap PDFPreviewImageProvider::renderPDFPage(unsigned int page) {
 	const double resY = 300.0;
 	QImage image = popplerPage->renderToImage(resX, resY);
 
-	delete popplerPage;
+	popplerPage.reset();
 	renderMutex.unlock();
 
 	if (!image.isNull()) {
@@ -2885,9 +2885,9 @@ void GAPI::getSCAPEntities() {
 bool isSpecialValidity(QString value) {
 
 	// Search AAAA/MM/DD, AAAA-MM-DD, AAAA MM DD
-	QRegExp dateFormat("(9999|99|12|31)(/|-| *)(9999|99|12|31)(/|-| *)(9999|99|12|31)");
+	QRegularExpression dateFormat("(9999|99|12|31)(/|-| *)(9999|99|12|31)(/|-| *)(9999|99|12|31)");
 
-	return dateFormat.indexIn(value) != -1;
+	return dateFormat.match(value).hasMatch();
 }
 
 static std::map<std::string, std::vector<std::string>>
@@ -3044,8 +3044,8 @@ void GAPI::getSCAPCompanyAttributes(bool useOAuth) {
 }
 
 bool GAPI::isAttributeExpired(std::string &date, std::string &supplier) {
-	QRegExp dateFormat("^\\d{4}-\\d{2}-\\d{2}$"); // xsd:date format
-	if (date.empty() || dateFormat.indexIn(date.c_str()) == -1) {
+	QRegularExpression dateFormat("^\\d{4}-\\d{2}-\\d{2}$"); // xsd:date format
+	if (date.empty() || !dateFormat.match(QString::fromStdString(date)).hasMatch()) {
 		PTEID_LOG(eIDMW::PTEID_LOG_LEVEL_DEBUG, "eidgui",
 				  "%s: Bad date format in validity of attribute supplied by: '%s' -> '%s'", __FUNCTION__,
 				  supplier.c_str(), date.c_str());

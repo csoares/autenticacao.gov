@@ -659,7 +659,7 @@ bool AppController::isAccessibilityActive() { return QAccessible::isActive(); }
 
 QStringList AppController::getFilesFromClipboard() {
 	const QClipboard *clipboard = QGuiApplication::clipboard();
-	QStringList filenames = clipboard->text().split(QRegExp("\n"));
+	QStringList filenames = clipboard->text().split("\n");
 
 	return filenames;
 }

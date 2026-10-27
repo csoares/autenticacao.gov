@@ -13,7 +13,7 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 
 import "../../scripts/Constants.js" as Constants
 import "../../components" as Components
