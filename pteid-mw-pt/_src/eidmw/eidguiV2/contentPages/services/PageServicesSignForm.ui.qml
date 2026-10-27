@@ -831,6 +831,7 @@ Item {
                                 width: parent.width
                                 font.italic: textFieldLocal.text === "" ? true : false
                                 anchors.top: textFieldReason.bottom
+                                anchors.topMargin: 2 * Constants.SIZE_TEXT_V_SPACE
                                 placeholderText: qsTranslate("PageServicesSign",
                                                              "STR_SIGN_LOCAL") + "?"
                                 font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -850,6 +851,7 @@ Item {
                             }
                             Switch {
                                 id: switchSignTemp
+                                indicator: Components.SwitchIndicator { control: switchSignTemp }
                                 height: Constants.HEIGHT_SWITCH_COMPONENT
                                 anchors.top: textFieldLocal.bottom
                                 x: 5
@@ -911,6 +913,7 @@ Item {
                             }
                             Switch {
                                 id: switchAddAttributes
+                                indicator: Components.SwitchIndicator { control: switchAddAttributes }
                                 height: Constants.HEIGHT_SWITCH_COMPONENT
                                 anchors.top: checkboxLTV.bottom
                                 anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
@@ -1248,6 +1251,7 @@ Item {
                     anchors.top: parent.top
                     Switch {
                         id: checkLastPage
+                        indicator: Components.SwitchIndicator { control: checkLastPage }
                         text: qsTranslate("PageServicesSign", "STR_SIGN_LAST")
                         height: Constants.HEIGHT_SWITCH_COMPONENT
                         font.family: lato.name
@@ -1283,6 +1287,7 @@ Item {
                     anchors.top: parent.top
                     Switch {
                         id: checkSignShow
+                        indicator: Components.SwitchIndicator { control: checkSignShow }
                         text: qsTranslate("PageServicesSign",
                                           "STR_SIGN_VISIBLE")
                         height: Constants.HEIGHT_SWITCH_COMPONENT
@@ -1313,6 +1318,7 @@ Item {
 
                     Switch {
                         id: checkSignReduced
+                        indicator: Components.SwitchIndicator { control: checkSignReduced }
                         text: qsTranslate("PageServicesSign",
                                           "STR_SIGN_REDUCED")
                         height: Constants.HEIGHT_SWITCH_COMPONENT

@@ -118,6 +118,7 @@ Item {
             anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
             Switch {
                 id: switchBasic
+                indicator: Components.SwitchIndicator { control: switchBasic }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 text: qsTranslate("GAPI","STR_BASIC_INFORMATION_UPPERCASE")
                 font.bold: activeFocus ? true : false
@@ -135,6 +136,7 @@ Item {
             }
             Switch {
                 id: switchAdditional
+                indicator: Components.SwitchIndicator { control: switchAdditional }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 anchors.top: switchBasic.bottom
                 text: qsTranslate("GAPI","STR_ADDITIONAL_INFORMATION_UPPERCASE")
@@ -153,6 +155,7 @@ Item {
             }
             Switch {
                 id: switchAddress
+                indicator: Components.SwitchIndicator { control: switchAddress }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 anchors.top: switchAdditional.bottom
                 text: qsTranslate("GAPI","STR_ADDRESS_UPPERCASE")
@@ -171,6 +174,7 @@ Item {
             }
             Switch {
                 id: switchNotes
+                indicator: Components.SwitchIndicator { control: switchNotes }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 anchors.top: switchAddress.bottom
                 text: qsTranslate("GAPI","STR_PERSONAL_NOTES_UPPERCASE")
@@ -189,6 +193,7 @@ Item {
             }
             Switch {
                 id: switchPrintDate
+                indicator: Components.SwitchIndicator { control: switchPrintDate }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 anchors.top: switchNotes.bottom
                 text: qsTranslate("GAPI","STR_PRINT_DATE")
@@ -264,6 +269,7 @@ Item {
             anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
             Switch {
                 id: switchPdfSign
+                indicator: Components.SwitchIndicator { control: switchPdfSign }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 text: qsTranslate("PageCardPrint","STR_PRINT_SIGN_PDF")
                 font.bold: activeFocus ? true : false
@@ -282,6 +288,7 @@ Item {
             }
             Switch {
                 id: switchSignTemp
+                indicator: Components.SwitchIndicator { control: switchSignTemp }
                 height: Constants.HEIGHT_SWITCH_COMPONENT
                 x: 20
                 anchors.top: switchPdfSign.bottom   

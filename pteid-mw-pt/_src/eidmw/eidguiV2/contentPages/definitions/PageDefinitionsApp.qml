@@ -347,12 +347,25 @@ PageDefinitionsAppForm {
     }
     function updateGraphicsTextField(){
             propertyGraphicsTextField.text = qsTranslate("PageDefinitionsApp","STR_ACCEL_GRAPHICS_TEXT")  + " : "
-                    + OpenGLInfo.majorVersion + "." + OpenGLInfo.minorVersion
+                    + GraphicsInfo.majorVersion + "." + GraphicsInfo.minorVersion
                     + "\n" + qsTranslate("PageDefinitionsApp","STR_ACCEL_GRAPHICS_TEXT_DESCRIPTION")
         }
     function updatePages(){
         // Update submenu
         mainFormID.state = Constants.MenuState.NORMAL
+        var subdata = mainFormID.propertyMainMenuBottomListView.model.get(0).subdata
+        var subMenuModel = mainFormID.propertySubMenuListView.model
+        if (subMenuModel.count === subdata.count) {
+            // Only retranslate: rebuilding the model recreates the delegates and in Qt 6
+            // the first one takes the focus and resets the selected submenu entry
+            for (var j = 0; j < subdata.count; ++j) {
+                subMenuModel.setProperty(j, "subName", qsTranslate("MainMenuBottomModel", subdata.get(j).subName))
+            }
+            updateGraphicsTextField()
+            mainFormID.propertySubMenuListView.currentIndex = 2
+            mainFormID.propertyPageLoader.forceActiveFocus()
+            return
+        }
         mainFormID.propertySubMenuListView.model.clear()
         for(var i = 0; i < mainFormID.propertyMainMenuBottomListView.model.get(0).subdata.count; ++i) {
             /*console.log("Sub Menu indice " + i + " - "
