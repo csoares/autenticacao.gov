@@ -8,8 +8,8 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.7
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
 /* Constants imports */
@@ -245,7 +245,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         font.italic: textFieldMobileNumber.text === "" ? true: false
                         placeholderText: qsTranslate("PageServicesSign","STR_SIGN_CMD_MOVEL_NUM_OP") + "?"
-                        validator: RegExpValidator { regExp: /[0-9]+/ }
+                        validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                         maximumLength: 15
                         font.family: lato.name
                         font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -291,7 +291,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         font.italic: textFieldPin.text === "" ? true: false
                         placeholderText: qsTranslate("PageServicesSign","STR_SIGN_CMD_PIN_OP") + "?"
-                        validator: RegExpValidator { regExp: /[0-9]{4,8}/ }
+                        validator: RegularExpressionValidator { regularExpression: /[0-9]{4,8}/ }
                         echoMode : TextInput.Normal
                         font.family: lato.name
                         font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -364,7 +364,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         font.italic: textFieldReturnCode.text === "" ? true: false
                         placeholderText: qsTranslate("PageServicesSign","STR_SIGN_CMD_CODE_OP") + "?"
-                        validator: RegExpValidator { regExp: /^[0-9]{6}$/ }
+                        validator: RegularExpressionValidator { regularExpression: /^[0-9]{6}$/ }
                         font.family: lato.name
                         font.pixelSize: Constants.SIZE_TEXT_FIELD
                         font.bold: activeFocus

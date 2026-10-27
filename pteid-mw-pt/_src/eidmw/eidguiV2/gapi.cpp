@@ -413,7 +413,7 @@ GAPI::GAPI(GUISettings &settings, QObject *parent) : QObject(parent), m_Settings
 							 readerContext.getCardContactInterface() == PTEID_CARD_CONTACTLESS) ||
 							m_hasOnlyIcao;
 			} catch (PTEID_Exception &err) {
-				qDebug() << "Not able to get card type! Error code: " << hex << err.GetError();
+				qDebug() << "Not able to get card type! Error code: " << Qt::hex << err.GetError();
 				m_hasOnlyIcao = false;
 				m_hasIcao = false;
 			}
@@ -1003,7 +1003,7 @@ void GAPI::doStartPACEAuthentication(QString pace_can, CardOperation op) {
 				cardIcao = &readerContext.getICAOCard();
 
 			} catch (PTEID_Exception err) {
-				qDebug() << "Error while trying to create ICAO Card object! error: " << hex << err.GetError();
+				qDebug() << "Error while trying to create ICAO Card object! error: " << Qt::hex << err.GetError();
 			}
 		}
 	}
@@ -3342,7 +3342,7 @@ void GAPI::finishLoadingICAOCardData(ICAO_Card *card) {
 				cardData[IsNameFromMRZ] = "False";
 			}
 		} catch (PTEID_Exception &err) {
-			qDebug() << "Error while trying to read DG11! Error code: " << hex << err.GetError();
+			qDebug() << "Error while trying to read DG11! Error code: " << Qt::hex << err.GetError();
 		}
 	}
 

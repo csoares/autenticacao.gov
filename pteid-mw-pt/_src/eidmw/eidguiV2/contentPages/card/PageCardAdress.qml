@@ -9,8 +9,8 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 
 import "../../scripts/Constants.js" as Constants
 import "../../scripts/Functions.js" as Functions
@@ -389,7 +389,7 @@ PageCardAdressForm {
                     font.italic: textFieldPin.text === "" ? true: false
                     placeholderText: qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_CURRENT")
                     echoMode : TextInput.Password
-                    validator: RegExpValidator { regExp: /[0-9]+/ }
+                    validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                     maximumLength: 8
                     font.family: lato.name
                     font.pixelSize: Constants.SIZE_TEXT_FIELD

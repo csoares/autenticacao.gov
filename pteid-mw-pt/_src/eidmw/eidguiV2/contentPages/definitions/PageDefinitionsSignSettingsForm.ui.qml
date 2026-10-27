@@ -7,8 +7,8 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
 /* Constants imports */
@@ -350,9 +350,9 @@ Item {
                             enabled: checkboxTimeStamp.checked
                             opacity: checkboxTimeStamp.checked ? 1.0 : Constants.OPACITY_DEFINITIONS_APP_OPTION_DISABLED
                             inputMethodHints: Qt.ImhUrlCharactersOnly
-                            validator: RegExpValidator {
+                            validator: RegularExpressionValidator {
                                 //http/https url validator
-                                regExp: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+                                regularExpression: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
                             }
                             Accessible.role: Accessible.EditableText
                             Accessible.name: text

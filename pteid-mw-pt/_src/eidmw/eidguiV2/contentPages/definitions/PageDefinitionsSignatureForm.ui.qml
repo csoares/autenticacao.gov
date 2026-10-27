@@ -7,9 +7,9 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
-import Qt.labs.platform 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt.labs.platform
 import Qt5Compat.GraphicalEffects
 
 /* Constants imports */
@@ -17,7 +17,7 @@ import "../../scripts/Constants.js" as Constants
 import "../../components" as Components
 
 // Work around to QTCREATORBUG-18321
-import QtQuick.Templates 2.0 as T
+import QtQuick.Templates as T
 
 Item {
     anchors.fill: parent

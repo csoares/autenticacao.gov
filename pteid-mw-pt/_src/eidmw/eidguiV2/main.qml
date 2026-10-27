@@ -10,11 +10,11 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Controls.Universal 2.1
-import QtQuick.Window 2.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Controls.Universal
+import QtQuick.Window
 
 import "scripts/Constants.js" as Constants
 import "scripts/Functions.js" as Functions
@@ -36,14 +36,19 @@ Window {
 
     title: "Autenticação.Gov"
 
+    // FontLoader.name is read-only in Qt 6: on linux use the installed font by name
+    QtObject {
+        id: lato
+        readonly property string name: latoLoader.source != "" ? latoLoader.name : "Lato"
+    }
+
     FontLoader {
-        id: lato;
-        name: "Lato" // This avoids printing error on application start
+        id: latoLoader
 
         source: {
             // on linux, load installed font by name
             // on windows and macOS use source property to point to distributed font file
-            if (Qt.platform.os === "windows" || Qt.platform.os === "osx") {
+            if (Qt.platform.os === "windows" || Qt.platform.os === "macos") {
                 controler.getFontFile("lato")
             }
             else ""
@@ -82,7 +87,7 @@ Window {
             // Minimize window in case it was just hidden (it would remain hidden otherwise)
             mainWindow.showMinimized()
 
-            if (Qt.platform.os === "osx")
+            if (Qt.platform.os === "macos")
                 mainWindow.flags = Qt.Window | Qt.CustomizeWindowHint | Qt.FramelessWindowHint;
             mainWindow.raise();
             mainWindow.show();
@@ -1597,7 +1602,7 @@ Load language error. Please reinstall the application"
             mainWindow.visibility = Window.Maximized
         }
         
-        if(Qt.platform.os === "osx") {
+        if(Qt.platform.os === "macos") {
             if(!gapi.isMacOSApplicationFolder()) {
                 mainFormID.propertyPageLoader.activateGeneralPopup(qsTranslate("main", "STR_WARNING_NOT_CORRECT_FOLDER_MAC"),
                                                                    qsTranslate("main", "STR_WARNING_NOT_CORRECT_FOLDER_MAC_BODY"), false)

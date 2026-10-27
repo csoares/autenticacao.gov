@@ -8,11 +8,11 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Window 2.2
+import QtQuick
+import QtQuick.Window
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.1
-import Qt.labs.platform 1.0
+import QtQuick.Controls
+import Qt.labs.platform
 import eidguiV2 1.0
 
 /* Constants imports */

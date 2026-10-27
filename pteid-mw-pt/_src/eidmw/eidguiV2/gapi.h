@@ -192,7 +192,7 @@ struct WindowGeometry {
 	int height;
 };
 
-class PDFPreviewImageProvider : public QObject, public QQuickImageProvider {
+class PDFPreviewImageProvider : public QQuickImageProvider {
 	Q_OBJECT
 public:
 	PDFPreviewImageProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap) {}

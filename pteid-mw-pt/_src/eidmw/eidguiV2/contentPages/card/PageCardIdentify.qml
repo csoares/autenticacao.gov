@@ -8,8 +8,8 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
 

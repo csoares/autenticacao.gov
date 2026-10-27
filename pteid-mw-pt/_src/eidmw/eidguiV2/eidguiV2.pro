@@ -4,6 +4,13 @@ TEMPLATE = app
 
 macx: ICON = appicon.icns
 
+# Translations and fonts are loaded from Contents/Resources on macOS
+macx {
+    APP_RESOURCES.files = eidmw_en.qm eidmw_nl.qm fonts/lato/Lato-Regular.ttf fonts/myriad/MyriadPro-Regular.otf
+    APP_RESOURCES.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += APP_RESOURCES
+}
+
 QT += quick quickcontrols2 concurrent core5compat
 
 QT += widgets

@@ -8,8 +8,8 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 
 /* Constants imports */
 import "../../scripts/Constants.js" as Constants
@@ -222,7 +222,7 @@ PageSecurityPinCodesForm {
                     font.italic: textFieldPin.text === "" ? true: false
                     placeholderText: qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_CURRENT")
                     echoMode : TextInput.Password
-                    validator: RegExpValidator { regExp: /[0-9]+/ }
+                    validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                     maximumLength: 8
                     font.family: lato.name
                     font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -373,7 +373,7 @@ PageSecurityPinCodesForm {
                     font.italic: textFieldPinCurrent.text === "" ? true: false
                     placeholderText: qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_CURRENT")
                     echoMode : TextInput.Password
-                    validator: RegExpValidator { regExp: /[0-9]+/ }
+                    validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                     maximumLength: 8
                     font.family: lato.name
                     font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -407,7 +407,7 @@ PageSecurityPinCodesForm {
                     font.italic: textFieldPinNew.text === "" ? true: false
                     placeholderText: qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_NEW") + "?"
                     echoMode : TextInput.Password
-                    validator: RegExpValidator { regExp: /[0-9]+/ }
+                    validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                     maximumLength: 8
                     font.family: lato.name
                     font.pixelSize: Constants.SIZE_TEXT_FIELD
@@ -441,7 +441,7 @@ PageSecurityPinCodesForm {
                     font.italic: textFieldPinConfirm.text === "" ? true: false
                     placeholderText: qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_CONFIRM") + "?"
                     echoMode : TextInput.Password
-                    validator: RegExpValidator { regExp: /[0-9]+/ }
+                    validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                     maximumLength: 8
                     font.family: lato.name
                     font.pixelSize: Constants.SIZE_TEXT_FIELD

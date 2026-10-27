@@ -10,11 +10,11 @@
 
 ****************************************************************************-*/
 
-import QtQuick 2.6
-import QtQuick.Controls 2.5
-import Qt.labs.platform 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt.labs.platform
 import Qt5Compat.GraphicalEffects
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts
 import eidguiV2 1.0
 
 /* Constants imports */
@@ -1163,7 +1163,7 @@ Item {
                         enabled: fileLoaded && propertyRadioButtonPADES.checked
                                  && !checkLastPage.checked && checkSignShow.checked
                         editable: enabled
-                        validator: RegExpValidator { regExp: /[1-9][0-9]*/ }
+                        validator: RegularExpressionValidator { regularExpression: /[1-9][0-9]*/ }
                         Accessible.ignored: true
 
                         contentItem: TextInput {

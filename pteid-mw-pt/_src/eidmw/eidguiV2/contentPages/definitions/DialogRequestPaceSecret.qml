@@ -1,6 +1,6 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import eidguiV2 1.0
 import "../../scripts/Constants.js" as Constants
@@ -93,7 +93,7 @@ Dialog {
                         placeholderText: ""
                         echoMode : TextInput.Normal
                         background:null
-                        validator: RegExpValidator { regExp: /[0-9]+/ }
+                        validator: RegularExpressionValidator { regularExpression: /[0-9]+/ }
                         maximumLength: 6
                         font.family: lato.name
                         font.pixelSize: Constants.SIZE_TEXT_FIELD
