@@ -16,7 +16,7 @@ PageHelpAccessibilityForm {
         target: controler
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageHelpAccessibilityForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }

@@ -19,7 +19,7 @@ import eidguiV2 1.0
 
 PageCardNotesForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageCardNotesForm onPressed:" + event.key)
         if(propertyEditNotes.focus === false  && !event.isAutoRepeat){
             Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)

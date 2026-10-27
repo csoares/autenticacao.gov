@@ -17,7 +17,7 @@ PageHelpAboutForm {
         target: controler
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageHelpAboutForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }

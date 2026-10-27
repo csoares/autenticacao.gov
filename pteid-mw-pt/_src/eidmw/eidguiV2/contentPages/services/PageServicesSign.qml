@@ -54,7 +54,7 @@ PageServicesSignForm {
             jump_to_definitions_SCAP()
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageServicesSignForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
 
@@ -719,7 +719,7 @@ PageServicesSignForm {
     }
 
     propertyDropArea {
-        onEntered: {
+        onEntered: function(drag) {
             filesArray = drag.urls
             console.log("Num files: "+filesArray.length);
         }
@@ -733,7 +733,7 @@ PageServicesSignForm {
     }
 
     propertyDropFileArea {
-        onEntered: {
+        onEntered: function(drag) {
             filesArray = drag.urls
             console.log("Num files: "+filesArray.length);
         }
@@ -841,19 +841,19 @@ PageServicesSignForm {
             Keys.onSpacePressed: {
                 checkboxSel.checked = !checkboxSel.checked
             }
-            Keys.onTabPressed: {
+            Keys.onTabPressed: function(event) {
                 focus_forward();
                 handle_key_pressed(event.key, attributeListDelegate)
             }
-            Keys.onDownPressed: {
+            Keys.onDownPressed: function(event) {
                 focus_forward();
                 handle_key_pressed(event.key, attributeListDelegate)
             }
-            Keys.onBacktabPressed: {
+            Keys.onBacktabPressed: function(event) {
                 focus_backward();
                 handle_key_pressed(event.key, attributeListDelegate)
             }
-            Keys.onUpPressed: {
+            Keys.onUpPressed: function(event) {
                 focus_backward();
                 handle_key_pressed(event.key, attributeListDelegate)
             }
@@ -1072,7 +1072,7 @@ PageServicesSignForm {
                 }
             }
 
-            Keys.onTabPressed: {
+            Keys.onTabPressed: function(event) {
                 if (propertyListViewFiles.currentIndex == propertyListViewFiles.count -1) {
                     propertyListViewFiles.currentIndex = 0;
                     handle_key_pressed(event.key, "")
@@ -1446,7 +1446,7 @@ PageServicesSignForm {
             width: signsuccess_dialog.availableWidth
             height: rectLabelText.height
             Keys.enabled: true
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if(event.key===Qt.Key_Enter || event.key===Qt.Key_Return || event.key===Qt.Key_Space) {
                     open_show_signed_file_dialog()
                 }
@@ -1530,7 +1530,7 @@ PageServicesSignForm {
                     propertyText.leftPadding: 0
                     propertyText.rightPadding: 0
                     propertyText.textMargin: 0
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handle_key_pressed(event.key, verifySignLinkSigned)
                     }
                     propertyText.wrapMode: Text.Wrap
@@ -2036,18 +2036,18 @@ PageServicesSignForm {
     }
 
     function update_indicators(pageCount) {
-        propertySpinBoxControl.up.indicator.visible = true
-        propertySpinBoxControl.down.indicator.visible = true
-        propertySpinBoxControl.up.indicator.enabled = true
-        propertySpinBoxControl.down.indicator.enabled = true
+        propertyPageNext.visible = true
+        propertyPagePrevious.visible = true
+        propertyPageNext.enabled = true
+        propertyPagePrevious.enabled = true
 
         if (propertySpinBoxControl.value === pageCount || propertySpinBoxControl.value === get_minimum_page()) {
-            propertySpinBoxControl.up.indicator.visible = false
-            propertySpinBoxControl.up.indicator.enabled = false
+            propertyPageNext.visible = false
+            propertyPageNext.enabled = false
         }
         if (propertySpinBoxControl.value === 1) {
-            propertySpinBoxControl.down.indicator.visible = false
-            propertySpinBoxControl.down.indicator.enabled = false
+            propertyPagePrevious.visible = false
+            propertyPagePrevious.enabled = false
         }
     }
 

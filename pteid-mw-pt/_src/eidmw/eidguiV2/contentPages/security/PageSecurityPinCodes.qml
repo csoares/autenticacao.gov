@@ -21,7 +21,7 @@ import eidguiV2 1.0
 
 PageSecurityPinCodesForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         // if focus is already on the tab, exit to sub-menu
         if (getCurrentTab().activeFocus === true) {
             Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)

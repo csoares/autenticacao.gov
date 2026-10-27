@@ -21,7 +21,7 @@ import eidguiV2 1.0
 
 PageSecurityCertificatesForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }
 

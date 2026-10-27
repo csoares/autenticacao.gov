@@ -22,7 +22,7 @@ import eidguiV2 1.0
 PageCardICAOForm {
     property string outputFile : ""
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageCardICAOForm onPressed:" + event.key)
         if(propertyCancelExport.focus){
             propertySavePhotoButton.visible = true
@@ -240,7 +240,7 @@ PageCardICAOForm {
             height: 50
 
             Keys.enabled: true
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if(event.key===Qt.Key_Enter || event.key===Qt.Key_Return)
                 {
                     showCreatedFile()

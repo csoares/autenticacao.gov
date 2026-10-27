@@ -70,7 +70,7 @@ Window {
     }
     onYChanged: {
     }
-    onClosing:{
+    onClosing: function(close) {
         // check for unsaved notes when closing application
         close.accepted = false;
         if(!handleUnsavedNotes(-1,"", Constants.QUIT_APPLICATION)){
@@ -1002,7 +1002,7 @@ Load language error. Please reinstall the application"
                 }
             }
         ]
-        Keys.onPressed: {
+        Keys.onPressed: function(event) {
             console.log("Main Menu Key Pressed: " + event.key)
             // if backing out of notes, using keys
             if(mainFormID.propertySubMenuListView.focus){
@@ -1100,7 +1100,7 @@ Load language error. Please reinstall the application"
             height: mainFormID.propertyMainMenuListView.height
                     / mainFormID.propertyMainMenuListView.count
 
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 console.log("mainMenu onPressed:" + event.key)
                 Functions.detectBackKeys(event.key, Constants.MenuState.HOME)
             }
@@ -1267,7 +1267,7 @@ Load language error. Please reinstall the application"
             height: mainFormID.propertyMainMenuBottomListView.height
 
 
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 console.log("mainMenuBottom onPressed:" + event.key)
                 Functions.detectBackKeys(event.key, Constants.MenuState.HOME)
                     }
@@ -1424,7 +1424,7 @@ Load language error. Please reinstall the application"
             width: mainFormID.propertySubMenuListView.width
             height: mainFormID.propertyMainView.height * Constants.SUB_MENU_RELATIVE_V_ITEM_SIZE
 
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 console.log("subMenu onPressed:" + event.key)
                 Functions.detectBackKeys(event.key, Constants.MenuState.HOME)
             }

@@ -18,7 +18,7 @@ import eidguiV2 1.0
 
 PageDefinitionsSignatureForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageDefinitionsSignatureForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }
@@ -81,7 +81,7 @@ PageDefinitionsSignatureForm {
 
     propertyDropArea {
 
-        onEntered: {
+        onEntered: function(drag) {
             /*console.log("You chose file(s): " + drag.urls.toString());*/
             filesArray = drag.urls
             console.log("Num files: "+filesArray.length);

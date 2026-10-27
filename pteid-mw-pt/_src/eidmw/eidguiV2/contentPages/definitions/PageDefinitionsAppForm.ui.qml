@@ -114,7 +114,7 @@ Item {
                     // If this component is changed, the workaround to scroll the page automatically with
                     // keyboard navigation has to be updated also;
                     // this is located in PageDefinitionsApp.qml - function handleKeyPressed
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, textReader)
                     }
                     KeyNavigation.backtab: textFieldAutPass
@@ -161,7 +161,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key,textSelectReader)
                         }
                         KeyNavigation.tab: comboBoxReader
@@ -186,7 +186,7 @@ Item {
                         visible: true
                         Accessible.role: Accessible.ComboBox
                         Accessible.name: currentText
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             if (event.key != Qt.Key_Down)
                                 handleKeyPressed(event.key, comboBoxReader)
                         }
@@ -211,7 +211,7 @@ Item {
                         anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxEnablePinpad)
                         }
                         KeyNavigation.tab: dateAppStart
@@ -246,7 +246,7 @@ Item {
                     text: qsTranslate("PageDefinitionsApp","STR_START_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppStart)
                     }
                     KeyNavigation.tab: checkboxAutoStart
@@ -294,7 +294,7 @@ Item {
                         anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxAutoStart)
                         }
                         KeyNavigation.tab: startAutoupdateText
@@ -329,7 +329,7 @@ Item {
                     text: qsTranslate("PageDefinitionsApp","STR_START_AUTOUPDATES_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, startAutoupdateText)
                     }
                     KeyNavigation.tab: checkboxStartAutoupdate
@@ -377,7 +377,7 @@ Item {
                         anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxStartAutoupdate)
                         }
                         KeyNavigation.tab: dateAppLanguage
@@ -414,7 +414,7 @@ Item {
                     text: qsTranslate("PageDefinitionsApp","STR_LANGUAGE_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppLanguage)
                     }
                     KeyNavigation.tab: radioButtonPT
@@ -467,7 +467,7 @@ Item {
                             font.bold: activeFocus
                             Accessible.role: Accessible.RadioButton
                             Accessible.name: text
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key, radioButtonPT)
                             }
                             KeyNavigation.tab: radioButtonUK
@@ -496,7 +496,7 @@ Item {
                             font.bold: activeFocus
                             Accessible.role: Accessible.RadioButton
                             Accessible.name: text
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key, radioButtonUK)
                             }
                             KeyNavigation.tab: dateAppLook
@@ -533,7 +533,7 @@ Item {
                                       "STR_APP_LOOK_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppLook)
                     }
                     KeyNavigation.tab: checkboxShowAnime
@@ -589,7 +589,7 @@ Item {
                             anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
                             Accessible.role: Accessible.CheckBox
                             Accessible.name: text
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key, checkboxShowAnime)
                             }
                             KeyNavigation.tab: titleScale
@@ -624,7 +624,7 @@ Item {
                     text:  qsTranslate("PageDefinitionsApp", "STR_SCALE_APPLICATION_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppLook)
                     }
                     KeyNavigation.tab: textScaleDesc
@@ -672,7 +672,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key,textSelectReader)
                         }
                         KeyNavigation.tab: checkboxUseSystemScale.visible ? checkboxUseSystemScale : comboBoxScaling
@@ -703,7 +703,7 @@ Item {
                             anchors.left: parent.left
                             Accessible.role: Accessible.CheckBox
                             Accessible.name: text
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key, checkboxShowAnime)
                             }
                             KeyNavigation.tab: textManualScaling
@@ -728,7 +728,7 @@ Item {
                             wrapMode: Text.WordWrap
                             Accessible.role: Accessible.StaticText
                             Accessible.name: text
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key,textSelectReader)
                             }
                             KeyNavigation.tab: comboBoxScaling
@@ -758,7 +758,7 @@ Item {
                             visible: true
                             Accessible.role: Accessible.ComboBox
                             Accessible.name: currentText
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 if (event.key != Qt.Key_Down)
                                     handleKeyPressed(event.key, comboBoxReader)
                             }
@@ -803,7 +803,7 @@ Item {
                     text: qsTranslate("PageDefinitionsApp", "STR_DEBUG_MODE_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateDebugMode)
                     }
                     KeyNavigation.tab: debugModeDescriptionTextField
@@ -857,7 +857,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: debugModeStep1TextField
@@ -881,7 +881,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: checkboxDebugMode
@@ -908,7 +908,7 @@ Item {
                         font.bold: activeFocus
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxDebugMode)
                         }
                         KeyNavigation.tab: debugModeStep2TextField
@@ -934,7 +934,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: debugModeStep3TextField
@@ -959,7 +959,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: debugModeStep4TextField
@@ -984,7 +984,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: buttonZipLogs
@@ -1031,7 +1031,7 @@ Item {
                         propertyText.font.pixelSize: Constants.SIZE_TEXT_FIELD
                         propertyText.font.bold: activeFocus
                         propertyLinkUrl: 'https://www.autenticacao.gov.pt/contactos?appRedirect=AutenticacaoGovDesktop'
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugModeDescriptionTextField)
                         }
                         KeyNavigation.tab: debugInfoLink
@@ -1059,7 +1059,7 @@ Item {
                         KeyNavigation.tab: dateAppGraphics
                         KeyNavigation.down: dateAppGraphics
                         KeyNavigation.right: dateAppGraphics
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, debugInfoLink)
                         }
                         KeyNavigation.left: debugModeStep5TextField
@@ -1092,7 +1092,7 @@ Item {
                                       "STR_APP_GRAPHICS_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppGraphics)
                     }
                     KeyNavigation.tab: graphicsTextField
@@ -1142,7 +1142,7 @@ Item {
                         wrapMode: Text.WordWrap
                         Accessible.role: Accessible.StaticText
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, graphicsTextField)
                         }
                         KeyNavigation.tab: textLink
@@ -1168,7 +1168,7 @@ Item {
                         KeyNavigation.tab: textGraphicsRendering
                         KeyNavigation.down: textGraphicsRendering
                         KeyNavigation.right: textGraphicsRendering
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, textLink)
                         }
                         KeyNavigation.left: graphicsTextField
@@ -1186,7 +1186,7 @@ Item {
                         anchors.verticalCenter: comboboxAccelGraphics.verticalCenter
                         wrapMode: Text.WordWrap
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key,textSelectReader)
                         }
                         KeyNavigation.tab: comboboxAccelGraphics
@@ -1214,7 +1214,7 @@ Item {
                         anchors.topMargin: Constants.SIZE_TEXT_V_SPACE
                         Accessible.role: Accessible.ComboBox
                         Accessible.name: currentText
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, comboboxAccelGraphics)
                         }
                         model: [
@@ -1256,7 +1256,7 @@ Item {
                                       "STR_TELEMETRY_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, textAppTelemetry)
                     }
 
@@ -1308,7 +1308,7 @@ Item {
                         checked: false
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkBoxUseTelemetry)
                         }
                         Keys.onEnterPressed: toggleSwitch(checkBoxUseTelemetry)
@@ -1344,7 +1344,7 @@ Item {
                                       "STR_NETWORK_TITLE")
                     Accessible.role: Accessible.StaticText
                     Accessible.name: text
-                    Keys.onPressed: {
+                    Keys.onPressed: function(event) {
                         handleKeyPressed(event.key, dateAppNetwork)
                     }
                     KeyNavigation.tab: checkboxSystemProxy.visible ? checkboxSystemProxy : checkboxProxy
@@ -1396,7 +1396,7 @@ Item {
                         checked: false
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxSystemProxy)
                         }
                         KeyNavigation.tab: checkboxProxy
@@ -1423,7 +1423,7 @@ Item {
                         checked: false
                         Accessible.role: Accessible.CheckBox
                         Accessible.name: text
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxProxy)
                         }
                         KeyNavigation.tab: checkboxProxy.checked ? textFieldAdress : checkboxAutProxy
@@ -1520,7 +1520,7 @@ Item {
                         // If this component is changed, the workaround to scroll the page automatically with
                         // keyboard navigation has to be updated also;
                         // this is located in PageDefinitionsApp.qml - function handleKeyPressed
-                        Keys.onPressed: {
+                        Keys.onPressed: function(event) {
                             handleKeyPressed(event.key, checkboxAutProxy)
                         }
                         KeyNavigation.tab: checkboxAutProxy.checked? textFieldAutUser: textReader
@@ -1596,7 +1596,7 @@ Item {
                             // If this component is changed, the workaround to scroll the page automatically with
                             // keyboard navigation has to be updated also;
                             // this is located in PageDefinitionsApp.qml - function handleKeyPressed
-                            Keys.onPressed: {
+                            Keys.onPressed: function(event) {
                                 handleKeyPressed(event.key,textFieldAutPass)
                             }
                             KeyNavigation.tab: textReader

@@ -23,7 +23,7 @@ PageCardPrintForm {
 
     property string outputFile : ""
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageCardPrintForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }
@@ -60,7 +60,7 @@ PageCardPrintForm {
             height: 50
 
             Keys.enabled: true
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if(event.key===Qt.Key_Enter || event.key===Qt.Key_Return)
                 {
                     showCreatedFile()

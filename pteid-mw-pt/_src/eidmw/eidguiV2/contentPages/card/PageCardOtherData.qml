@@ -18,7 +18,7 @@ import eidguiV2 1.0
 
 PageCardOtherDataForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageCardOtherDataForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }

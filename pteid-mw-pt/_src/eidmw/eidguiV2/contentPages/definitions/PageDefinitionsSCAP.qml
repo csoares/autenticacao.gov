@@ -41,7 +41,7 @@ PageDefinitionsSCAPForm {
             returnToSignaturePage()
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         var index = propertyStackLayout.currentIndex
         var isOnEntitiesTab = index === 0
         var isOnEntityTab = index === 1

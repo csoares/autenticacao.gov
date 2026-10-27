@@ -19,7 +19,7 @@ import eidguiV2 1.0
 
 PageDefinitionsSignSettingsForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageDefinitionsSignSettingsForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }

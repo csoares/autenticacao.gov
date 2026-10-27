@@ -22,7 +22,7 @@ import eidguiV2 1.0
 PageDefinitionsAppForm {
     property bool adminConfiguration: controler.getAdminConfiguration()
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageDefinitionsAppForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }

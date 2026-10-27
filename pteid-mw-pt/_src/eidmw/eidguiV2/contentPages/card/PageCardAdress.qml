@@ -22,7 +22,7 @@ import eidguiV2 1.0
 
 PageCardAdressForm {
 
-    Keys.onPressed: {
+    Keys.onPressed: function(event) {
         console.log("PageCardAdressForm onPressed:" + event.key)
         Functions.detectBackKeys(event.key, Constants.MenuState.SUB_MENU)
     }
