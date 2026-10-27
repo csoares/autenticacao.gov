@@ -2583,6 +2583,12 @@ void PDFPreviewImageProvider::doCloseAllDocs() {
 	renderMutex.unlock();
 }
 
+/* isNotesSupported() reads the notes from the card: called from QML it blocks the GUI thread
+   while another operation holds the reader (e.g. a PIN dialog is open) */
+void GAPI::startCheckNotesSupported() { Concurrent::run(this, &GAPI::doCheckNotesSupported); }
+
+void GAPI::doCheckNotesSupported() { emit signalNotesSupported(isNotesSupported()); }
+
 bool GAPI::isNotesSupported() {
 	BEGIN_TRY_CATCH;
 

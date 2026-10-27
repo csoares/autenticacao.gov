@@ -179,7 +179,7 @@ Item {
                 anchors.top: switchAddress.bottom
                 text: qsTranslate("GAPI","STR_PERSONAL_NOTES_UPPERCASE")
                 font.bold: activeFocus ? true : false
-                enabled: gapi.isNotesSupported()
+                enabled: false
                 font.family: lato.name
                 font.pixelSize: Constants.SIZE_TEXT_FIELD
                 Accessible.role: Accessible.CheckBox

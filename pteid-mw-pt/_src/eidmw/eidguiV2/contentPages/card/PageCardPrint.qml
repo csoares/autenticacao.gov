@@ -152,6 +152,9 @@ PageCardPrintForm {
     }
     Connections {
         target: gapi
+        function onSignalNotesSupported(supported) {
+            propertySwitchNotes.enabled = supported
+        }
         function onSignalGenericError(error_code) {
             propertyBusyIndicator.running = false
         }
@@ -274,7 +277,7 @@ PageCardPrintForm {
             propertySwitchBasic.enabled = true
             propertySwitchAdditional.enabled = true
             propertySwitchAddress.enabled = true
-            propertySwitchNotes.enabled = gapi.isNotesSupported()
+            gapi.startCheckNotesSupported()
             propertySwitchPrintDate.enabled = true
             propertySwitchPdfSign.enabled = true
 
