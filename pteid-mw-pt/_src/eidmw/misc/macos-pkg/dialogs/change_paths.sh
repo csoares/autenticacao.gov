@@ -16,7 +16,17 @@ DIALOGS_BIN_PATH=pteiddialogsQTsrv.app/Contents/MacOS/pteiddialogsQTsrv
 change_dylib_dep $DIALOGS_BIN_PATH "libpteiddialogsQT.2.dylib libpteidcommon.2.dylib"
 change_dylib_dep fc-cache "libfreetype.6.dylib libfontconfig.1.dylib"
 
-install_name_tool -delete_rpath "$HOME/qt5.12/5.12.9/clang_64/lib" -add_rpath '/Applications/Autenticação.gov.app/Contents/Frameworks/' $DIALOGS_BIN_PATH
+# The Qt frameworks are loaded from the Autenticação.gov app bundle
+APP_FRAMEWORKS_DIR=${APP_FRAMEWORKS_DIR:-/Applications/Autenticação.gov.app/Contents/Frameworks}
+for dep in $(otool -X -L $DIALOGS_BIN_PATH | awk '{print $1}' | grep '/Qt[A-Za-z0-9]*\.framework/')
+do
+	install_name_tool -change $dep "@rpath/$(echo $dep | sed -E 's#.*/(Qt[A-Za-z0-9]*\.framework/.*)#\1#')" $DIALOGS_BIN_PATH
+done
+for rpath in $(otool -l $DIALOGS_BIN_PATH | awk '/LC_RPATH/{getline; getline; print $2}')
+do
+	install_name_tool -delete_rpath "$rpath" $DIALOGS_BIN_PATH
+done
+install_name_tool -add_rpath "$APP_FRAMEWORKS_DIR/" $DIALOGS_BIN_PATH
 
 otool -L fc-cache
 otool -L $DIALOGS_BIN_PATH

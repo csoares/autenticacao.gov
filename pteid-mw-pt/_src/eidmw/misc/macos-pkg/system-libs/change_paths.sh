@@ -14,12 +14,15 @@ function change_dylib_dep {
 
 pushd lib
 
+# libpoppler soname changes with each poppler release
+POPPLER_DYLIB=$(ls libpoppler.[0-9]*.dylib | head -1)
+
 #Fixup third-party libs
 change_dylib_dep libssl.3.dylib libcrypto.3.dylib
 #change_dylib_dep libxerces-c-3.2.dylib     "libcurl.4.dylib"
 change_dylib_dep libxml-security-c.20.dylib "libxerces-c-3.2.dylib libcrypto.3.dylib libcurl.4.dylib"
 change_dylib_dep libfontconfig.1.dylib libfreetype.6.dylib
-change_dylib_dep libpoppler.129.dylib "libtiff.6.dylib libjpeg.62.dylib libfreetype.6.dylib libfontconfig.1.dylib libopenjp2.7.dylib libpng16.16.dylib"
+change_dylib_dep $POPPLER_DYLIB "libtiff.6.dylib libjpeg.62.dylib libfreetype.6.dylib libfontconfig.1.dylib libopenjp2.7.dylib libpng16.16.dylib"
 change_dylib_dep libtiff.6.dylib libjpeg.62.dylib
 change_dylib_dep libfreetype.6.dylib libpng16.16.dylib
 change_dylib_dep libcurl.4.dylib "libssl.3.dylib libcrypto.3.dylib"
