@@ -37,7 +37,7 @@ PageSecurityPinCodesForm {
     Connections {
         target: gapi
 
-        onSignalCardAccessError: {
+        function onSignalCardAccessError(error_code) {
             console.log("Security Pin Codes onSignalCardAccessError")
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_ERROR")
             var bodyPopup = ""
@@ -77,7 +77,7 @@ PageSecurityPinCodesForm {
             
             propertyBusyIndicator.running = false
         }
-        onSignalCardDataChanged: {
+        function onSignalCardDataChanged() {
             console.log("Security Pin Codes --> Data Changed")
             propertyButtonModifyAuth.enabled = true
             propertyButtonTestAuth.enabled = true
@@ -103,7 +103,7 @@ PageSecurityPinCodesForm {
                 break
             }
         }
-        onSignalCardChanged: {
+        function onSignalCardChanged(error_code) {
             console.log("Security Pin Codes onSignalCardChanged")
             if (error_code == GAPI.ET_CARD_REMOVED) {
                 propertyTriesLeftAuthPin.text = ""
@@ -132,11 +132,11 @@ PageSecurityPinCodesForm {
                 propertyButtonTestAddress.enabled = false
             }
         }
-        onSignalTriesLeftPinFinished: {
+        function onSignalTriesLeftPinFinished(triesLeft, pin) {
             updateWithTriesLeft(triesLeft, pin)
         }
 
-        onSignalTestPinFinished: {
+        function onSignalTestPinFinished(triesLeft, pin) {
             if (triesLeft === 3) {
                 var titlePopup = qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_VERIFY")
                 var bodyPopup = qsTranslate("Popup PIN","STR_POPUP_CARD_PIN_SUCESS")
@@ -145,7 +145,7 @@ PageSecurityPinCodesForm {
             updateWithTriesLeft(triesLeft, pin)
         }
 
-        onSignalModifyPinFinished: {
+        function onSignalModifyPinFinished(triesLeft, pin) {
             if (triesLeft === 3) {
                 var titlePopup = qsTranslate("Popup PIN","STR_PIN_MODIFY")
                 var bodyPopup = qsTranslate("Popup PIN","STR_PIN_MODIFY_SUCESS")
@@ -154,14 +154,14 @@ PageSecurityPinCodesForm {
             updateWithTriesLeft(triesLeft, pin)
         }
 
-        onSignalContactlessCANNeeded: {
+        function onSignalContactlessCANNeeded() {
             console.log("QML: Contactless CAN is needed!!")
             if(paceDialogLoader.active == true)
                 paceDialogLoader.active = false
             paceDialogLoader.active = true
         }
 
-        onSignalErrorPace: {
+        function onSignalErrorPace(error_code) {
             if(error_code === GAPI.PaceBadToken){
                 console.log("QML: The stored CAN is wrong!! Will ask again!!")
                 paceDialogLoader.active = true
@@ -695,7 +695,7 @@ PageSecurityPinCodesForm {
 
     Connections {
         target: paceDialogLoader.status === Loader.Ready ? paceDialogLoader.item : null
-        onClosed: {
+        function onClosed() {
             paceDialogLoader.active = false
         }
     }

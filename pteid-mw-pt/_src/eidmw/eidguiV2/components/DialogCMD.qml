@@ -32,31 +32,31 @@ Item {
         enabled: enabledConnections
         target: gapi
 
-        onSignalValidateOtp: {
+        function onSignalValidateOtp() {
             console.log("Signal Validate OTP")
             dialogContent.state = Constants.DLG_STATE.VALIDATE_OTP;
             textFieldReturnCode.forceActiveFocus()
         }
-        onSignalShowMessage: {
+        function onSignalShowMessage(msg, urlLink) {
             open(GAPI.ShowMessage)
             showMessage(msg,urlLink)
         }
-        onSignalOpenFile: {
+        function onSignalOpenFile() {
             console.log("Signal Open File")
             dialogContent.state = Constants.DLG_STATE.OPEN_FILE;
             dialogContent.forceActiveFocus()
         }
-        onSignalUpdateProgressBar: {
+        function onSignalUpdateProgressBar(value) {
             console.log("CMD sign change --> update progress bar with value = " + value)
             progressBar.value = value
         }
-        onSignalUpdateProgressStatus: {
+        function onSignalUpdateProgressStatus(statusMessage) {
             console.log("CMD sign change --> update progress status with text = " + statusMessage)
             open(GAPI.Progress)
             textMessageTop.text = statusMessage
             textMessageTop.forceActiveFocus()
         }
-        onSignalShowLoadAttrButton: {
+        function onSignalShowLoadAttrButton() {
             console.log("Signal show load attributes button")
             dialogContent.state = Constants.DLG_STATE.LOAD_ATTRIBUTES;
         }

@@ -555,7 +555,6 @@ Item {
                         anchors.top: new_notification_title.bottom
                         anchors.topMargin: Constants.MARGIN_NOTIFICATION_CENTER / 2
 
-                        Keys.forwardTo: delegate
                         onFocusChanged: currentIndex = 0
                     }
                 }
@@ -605,7 +604,6 @@ Item {
                         anchors.top: read_notification_title.bottom
                         anchors.topMargin: Constants.MARGIN_NOTIFICATION_CENTER / 2
 
-                        Keys.forwardTo: delegate
                         onFocusChanged: currentIndex = 0
                     }
                 }

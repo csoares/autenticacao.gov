@@ -1022,7 +1022,6 @@ Item {
                                     cacheBuffer: Constants.SCAP_ATTR_LISTVIEW_CACHEBUFFER
                                     interactive: false //disables scroll/drag for this listview
                                     height: contentHeight
-                                    Keys.forwardTo: attributeListDelegate
                                 }
                             }
                         }
@@ -1163,6 +1162,9 @@ Item {
                         enabled: fileLoaded && propertyRadioButtonPADES.checked
                                  && !checkLastPage.checked && checkSignShow.checked
                         editable: enabled
+                        // keep the text input clear of the indicators, otherwise it takes their clicks in Qt 6
+                        leftPadding: down.indicator.width
+                        rightPadding: up.indicator.width
                         validator: RegularExpressionValidator { regularExpression: /[1-9][0-9]*/ }
                         Accessible.ignored: true
 
@@ -1197,6 +1199,16 @@ Item {
                             implicitHeight: parent.height
                             color: "transparent"
 
+                            // Qt 6 no longer forwards clicks on custom indicators reliably
+                            MouseArea {
+                                anchors.fill: parent
+                                enabled: spinBoxControl.enabled
+                                onClicked: {
+                                    spinBoxControl.increase()
+                                    spinBoxControl.valueModified()
+                                }
+                            }
+
                             Text {
                                 text: ">"
                                 font.family: lato.name
@@ -1218,6 +1230,16 @@ Item {
                             implicitWidth: 20
                             implicitHeight: Constants.HEIGHT_BOTTOM_COMPONENT
                             color: "transparent"
+
+                            // Qt 6 no longer forwards clicks on custom indicators reliably
+                            MouseArea {
+                                anchors.fill: parent
+                                enabled: spinBoxControl.enabled
+                                onClicked: {
+                                    spinBoxControl.decrease()
+                                    spinBoxControl.valueModified()
+                                }
+                            }
 
                             Text {
                                 text: "<"

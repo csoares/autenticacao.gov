@@ -29,11 +29,11 @@ PageCardAdressForm {
 
     Connections {
         target: gapi
-        onSignalGenericError: {
+        function onSignalGenericError(error_code) {
             propertyBusyIndicator.running = false
             mainFormID.opacity = Constants.OPACITY_MAIN_FOCUS
         }
-        onSignalAddressLoaded: {
+        function onSignalAddressLoaded(m_foreign) {
             console.log("Address --> Data Changed")
             if(m_foreign){
                 propertyItemForeignCitizen.visible = true
@@ -72,7 +72,7 @@ PageCardAdressForm {
             if(mainFormID.propertyPageLoader.propertyForceFocus)
                 propertyRectNacionalDistrict.forceActiveFocus()
         }
-        onSignalUpdateProgressBar: {
+        function onSignalUpdateProgressBar(value) {
             console.log("Address change --> update progress bar with value = " + value)
             progressBar.value = value
             if(value === 100) {
@@ -80,14 +80,14 @@ PageCardAdressForm {
                 progressBarIndeterminate.visible = false
             }
         }
-        onSignalUpdateProgressStatus: {
+        function onSignalUpdateProgressStatus(statusMessage) {
             console.log("Address change --> update progress status with text = " + statusMessage)            
             textMessageTop.propertyText.text = statusMessage
             textMessageTop.propertyAccessibleText = Functions.filterText(statusMessage)
             textMessageTop.propertyText.forceActiveFocus()
         }
 
-        onSignalRemoteAddressError: {
+        function onSignalRemoteAddressError(error_code) {
             console.log("Card Address onSignalRemoteAddressError: "+ error_code)
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_ERROR")
             var bodyPopup = ""
@@ -153,7 +153,7 @@ PageCardAdressForm {
             mainFormID.opacity = Constants.OPACITY_MAIN_FOCUS
         }
 
-        onSignalCardAccessError: {
+        function onSignalCardAccessError(error_code) {
             console.log("Card Adress onSignalCardAccessError"+ error_code)
 
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_ERROR")
@@ -207,7 +207,7 @@ PageCardAdressForm {
             mainFormID.opacity = Constants.OPACITY_MAIN_FOCUS
         }
 
-        onSignalCardChanged: {
+        function onSignalCardChanged(error_code) {
             console.log("Card Address onSignalCardChanged")
             if (error_code == GAPI.ET_CARD_REMOVED) {
                 var titlePopup = qsTranslate("Popup Card","STR_POPUP_CARD_READ")
@@ -249,19 +249,19 @@ PageCardAdressForm {
                 mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, true)
             }
         }
-        onSignalTestPinFinished: {
+        function onSignalTestPinFinished(triesLeft, pin) {
             if (triesLeft === 3) {
                 propertyBusyIndicator.running = true
                 gapi.startReadingAddress()
             }
         }
 
-        onSignalContactlessCANNeeded: {
+        function onSignalContactlessCANNeeded() {
             console.log("QML: Contactless CAN is needed!!")
             paceDialogLoader.active = true
         }
 
-        onSignalErrorPace: {
+        function onSignalErrorPace(error_code) {
             if(error_code === GAPI.PaceBadToken){
                 console.log("QML: The stored CAN is wrong!! Will ask again!!")
                 paceDialogLoader.active = true
@@ -271,7 +271,7 @@ PageCardAdressForm {
 
     Connections {
         target: paceDialogLoader.status === Loader.Ready ? paceDialogLoader.item : null
-        onClosed: {
+        function onClosed() {
             paceDialogLoader.active = false
         }
     }

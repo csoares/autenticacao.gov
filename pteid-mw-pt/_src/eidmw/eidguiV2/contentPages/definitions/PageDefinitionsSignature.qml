@@ -27,10 +27,10 @@ PageDefinitionsSignatureForm {
     }
     Connections {
         target: gapi
-        onSignalGenericError: {
+        function onSignalGenericError(error_code) {
             propertyBusyIndicator.running = false
         }
-        onSignalSignCertDataChanged: {
+        function onSignalSignCertDataChanged(ownerName, NIC) {
             console.log("Definitions Signature --> Certificate Data Changed")
 
             propertySigSignedByNameText.text = propertySigSignedByNameTextCustom.text = ownerName
@@ -42,12 +42,12 @@ PageDefinitionsSignatureForm {
             if(mainFormID.propertyPageLoader.propertyForceFocus)
                         propertyRadioButtonDefault.forceActiveFocus()
         }
-        onSignalCardAccessError: {
+        function onSignalCardAccessError(error_code) {
             console.log("Definitions Signature --> onSignalCardAccessError")
             clearFields()
             propertyBusyIndicator.running = false
         }
-        onSignalCardChanged: {
+        function onSignalCardChanged(error_code) {
             console.log("Definitions Signature --> onSignalCardChanged")
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_CARD_READ")
             var bodyPopup = ""
@@ -71,7 +71,7 @@ PageDefinitionsSignatureForm {
 
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, returnSubMenuWhenClosed)
         }
-        onSignalCustomSignImageRemoved: {
+        function onSignalCustomSignImageRemoved() {
             console.log("Definitions Signature onSignalCustomSignImageRemoved")
             var titlePopup = qsTranslate("PageServicesSign", "STR_WARNING")
             var bodyPopup = qsTranslate("PageServicesSign","STR_CUSTOM_IMAGE_REMOVED")

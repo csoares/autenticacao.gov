@@ -26,7 +26,7 @@ PageDefinitionsSignSettingsForm {
 
     Connections {
         target: gapi
-        onSignalInstalledRootCACert: {
+        function onSignalInstalledRootCACert(successful) {
             propertyBusyIndicator.running = false
             propertyIsRootCaCertInstalled = successful
 
@@ -66,7 +66,7 @@ PageDefinitionsSignSettingsForm {
     }
     Connections {
         target: propertyTextFieldTimeStamp
-        onEditingFinished: {
+        function onEditingFinished() {
             console.log("Editing TimeStamp finished host: " + propertyTextFieldTimeStamp.text);
             controler.setTimeStampHostValue(propertyTextFieldTimeStamp.text)
         }

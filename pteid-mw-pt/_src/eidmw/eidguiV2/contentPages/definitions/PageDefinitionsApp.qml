@@ -29,19 +29,19 @@ PageDefinitionsAppForm {
 
     Connections {
         target: gapi
-        onSignalCardAccessError:{
+        function onSignalCardAccessError(error_code) {
             propertyComboBoxReader.model = gapi.getRetReaderList()
         }
-        onSignalCardDataChanged:{
+        function onSignalCardDataChanged() {
             propertyComboBoxReader.model = gapi.getRetReaderList()
         }
-        onSignalCardChanged:{
+        function onSignalCardChanged(error_code) {
             propertyComboBoxReader.model = gapi.getRetReaderList()
         }
     }
     Connections {
         target: controler
-        onSignalZipLogsSuccess: {
+        function onSignalZipLogsSuccess(largeZip, filename) {
             console.log("Zip containing log files successfully created on Desktop")
             var titlePopup = qsTranslate("PageDefinitionsApp","STR_LOG_ZIP_SUCCESS_TITLE")
             var bodyPopup = qsTranslate("PageDefinitionsApp","STR_LOG_ZIP_SUCCESS")  + filename + "."
@@ -52,7 +52,7 @@ PageDefinitionsAppForm {
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, false)
 
         }
-        onSignalZipLogsFail: {
+        function onSignalZipLogsFail() {
             console.log("Failed to create a zip with log files on Desktop")
             var titlePopup = qsTranslate("PageDefinitionsApp","STR_LOG_ZIP_FAIL_TITLE") 
             var bodyPopup = qsTranslate("PageDefinitionsApp","STR_LOG_ZIP_FAIL") 
@@ -213,14 +213,14 @@ PageDefinitionsAppForm {
 
     Connections {
         target: propertyTextFieldAdress
-        onEditingFinished: {
+        function onEditingFinished() {
             console.log("Editing proxy host finished - host: " + propertyTextFieldAdress.text);
             controler.setProxyHostValue(propertyTextFieldAdress.text)
         }
     }
     Connections {
         target: propertyTextFieldPort
-        onEditingFinished: {
+        function onEditingFinished() {
             console.log("Editing proxy host port finished - port: " + propertyTextFieldPort.text);
             controler.setProxyPortValue(parseInt(propertyTextFieldPort.text))
         }
@@ -236,14 +236,14 @@ PageDefinitionsAppForm {
     }
     Connections {
         target: propertyTextFieldAutUser
-        onEditingFinished: {
+        function onEditingFinished() {
             //console.log("Editing proxy username finished - username: " + propertyTextFieldAutUser.text);
             controler.setProxyUsernameValue(propertyTextFieldAutUser.text)
         }
     }
     Connections {
         target: propertyTextFieldAutPass
-        onEditingFinished: {
+        function onEditingFinished() {
             //console.log("Editing proxy password finished - password: " + propertyTextFieldAutPass.text);
             controler.setProxyPwdValue(propertyTextFieldAutPass.text) 
         }

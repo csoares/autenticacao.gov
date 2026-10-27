@@ -152,24 +152,24 @@ PageCardPrintForm {
     }
     Connections {
         target: gapi
-        onSignalGenericError: {
+        function onSignalGenericError(error_code) {
             propertyBusyIndicator.running = false
         }
-        onSignalPdfPrintSignSucess: {
+        function onSignalPdfPrintSignSucess() {
             mainFormID.opacity = Constants.OPACITY_POPUP_FOCUS
             openFileText.text = qsTr("STR_CREATE_OPEN")
             createsuccess_dialog.visible = true
             createdSuccTitle.forceActiveFocus()
             propertyBusyIndicator.running = false
         }
-        onSignalPdfPrintSucess: {
+        function onSignalPdfPrintSucess() {
             mainFormID.opacity = Constants.OPACITY_POPUP_FOCUS
             openFileText.text = qsTr("STR_CREATE_OPEN")
             createsuccess_dialog.visible = true
             createdSuccTitle.forceActiveFocus()
             propertyBusyIndicator.running = false
         }
-        onSignalPdfSignSuccess: {
+        function onSignalPdfSignSuccess(error_code) {
             // test time stamp
             if (error_code == GAPI.SignMessageTimestampFailed)
             {
@@ -188,7 +188,7 @@ PageCardPrintForm {
             createdSuccTitle.forceActiveFocus()
             propertyBusyIndicator.running = false
         }
-        onSignalPdfSignFail: {
+        function onSignalPdfSignFail(error_code, index) {
             var titlePopup = qsTranslate("PageServicesSign", "STR_SIGN_FAIL")
             var bodyPopup = ""
             if (error_code == GAPI.SignFilePermissionFailed) 
@@ -202,18 +202,18 @@ PageCardPrintForm {
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, false)
             propertyBusyIndicator.running = false
         }
-        onSignalPdfPrintFail: {
+        function onSignalPdfPrintFail() {
             var titlePopup = qsTr("STR_PRINT_CREATE_PDF")
             var bodyPopup = qsTr("STR_PRINT_CREATE_PDF_FAIL")
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, false)
             propertyBusyIndicator.running = false
         }
-        onSignalPrinterPrintSucess: {
+        function onSignalPrinterPrintSucess() {
             var titlePopup = qsTr("STR_PRINT_PRINTER")
             var bodyPopup = qsTr("STR_PRINT_PRINTER_SUCESS")
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, false)
         }
-        onSignalPrinterPrintFail: {
+        function onSignalPrinterPrintFail() {
             console.log("got error on printer print failed "  + error_code)
             var titlePopup = qsTr("STR_PRINT_PRINTER")
             var bodyPopup = ""
@@ -225,7 +225,7 @@ PageCardPrintForm {
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, false)
 
         }
-        onSignalRemoteAddressError: {
+        function onSignalRemoteAddressError(error_code) {
             console.log("PageCardPrint nSignalRemoteAddressError: "+ error_code)
             var titlePopup = qsTr("STR_PRINT_CREATE_PDF") + ": " + qsTranslate("Popup Card","STR_POPUP_ERROR")
             var bodyPopup = ""
@@ -267,7 +267,7 @@ PageCardPrintForm {
             propertyBusyIndicator.running = false
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, true)
         }
-        onSignalCardDataChanged: {
+        function onSignalCardDataChanged() {
             console.log("Data Card Print --> Data Changed")
             propertyBusyIndicator.running = false
 
@@ -283,12 +283,12 @@ PageCardPrintForm {
                         propertyTitleSelectData.forceActiveFocus()
 
         }
-        onSignalOperationCanceledByUser: {
+        function onSignalOperationCanceledByUser() {
             mainFormID.opacity = Constants.OPACITY_MAIN_FOCUS
             propertyBusyIndicator.running = false
         }
 
-        onSignalCardAccessError: {
+        function onSignalCardAccessError(error_code) {
             console.log("Card Print Page onSignalCardAccessError")
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_ERROR")
             var bodyPopup = ""
@@ -323,7 +323,7 @@ PageCardPrintForm {
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, true)
             propertyBusyIndicator.running = false
         }
-        onSignalCardChanged: {
+        function onSignalCardChanged(error_code) {
             console.log("Card Print Page onSignalCardChanged")
             var titlePopup = qsTranslate("Popup Card","STR_POPUP_CARD_READ")
             var bodyPopup = ""
@@ -346,18 +346,18 @@ PageCardPrintForm {
             }
             mainFormID.propertyPageLoader.activateGeneralPopup(titlePopup, bodyPopup, returnSubMenuWhenClosed)
         }
-        onSignalTestPinFinished: {
+        function onSignalTestPinFinished(triesLeft, pin) {
             if (triesLeft != 3) {
                 propertySwitchAddress.checked = false
             }
         }
 
-        onSignalContactlessCANNeeded: {
+        function onSignalContactlessCANNeeded() {
             console.log("QML: Contactless CAN is needed!!")
             paceDialogLoader.active = true
         }
 
-        onSignalErrorPace: {
+        function onSignalErrorPace(error_code) {
             if(error_code === GAPI.PaceBadToken){
                 console.log("QML: The stored CAN is wrong!! Will ask again!!")
                 paceDialogLoader.active = true
@@ -367,7 +367,7 @@ PageCardPrintForm {
 
     Connections {
         target: paceDialogLoader.status === Loader.Ready ? paceDialogLoader.item : null
-        onClosed: {
+        function onClosed() {
             paceDialogLoader.active = false
         }
     }

@@ -25,7 +25,7 @@ PageDefinitionsUpdatesForm {
 
     Connections {
         target: controler
-        onSignalAutoUpdateFail: {
+        function onSignalAutoUpdateFail(updateType, error_code) {
             console.log("onSignalAutoUpdateFail updateType: " + updateType + ", error_code: " + error_code)
             var tempTextDescription = ""
             if (error_code == GAPI.GenericError) {
@@ -102,7 +102,7 @@ PageDefinitionsUpdatesForm {
                 propertyTextDescriptionTextCerts.forceActiveFocus()
             }
         }
-        onSignalAutoUpdateProgress: {
+        function onSignalAutoUpdateProgress(updateType, value) {
             if(updateType == GAPI.AutoUpdateApp){
                 propertyProgressBar.indeterminate = false
                 propertyProgressBar.visible = true
@@ -115,7 +115,7 @@ PageDefinitionsUpdatesForm {
                 propertyButtonCancelUpdateCerts.visible = true
             }
         }
-        onSignalAutoUpdateSuccess: {
+        function onSignalAutoUpdateSuccess(updateType) {
             if(updateType == GAPI.AutoUpdateApp){
                 propertyProgressBar.visible = false
                 propertyProgressBar.value = 0
@@ -146,7 +146,7 @@ PageDefinitionsUpdatesForm {
                 restart_dialog.open()
             }
         }
-        onSignalAutoUpdateAvailable: {
+        function onSignalAutoUpdateAvailable(updateType, arg1, arg2, arg3, url_list) {
             console.log("PageDefinitionsUpdates onSignalAutoUpdateAvailable")
 
             if(updateType == GAPI.AutoUpdateApp){
@@ -209,7 +209,7 @@ PageDefinitionsUpdatesForm {
                 propertyTextDescriptionTextCerts.forceActiveFocus()
             }
         }
-        onSignalStartUpdate: {
+        function onSignalStartUpdate(updateType, filename) {
             console.log("onSignalStartUpdate updateType = " + updateType)
             if(updateType == GAPI.AutoUpdateApp){
                 propertyReleaseNoteScrollView.visible = false
