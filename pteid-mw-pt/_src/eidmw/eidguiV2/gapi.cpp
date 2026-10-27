@@ -2530,25 +2530,26 @@ QSize PDFPreviewImageProvider::getPageSize(int page) {
 }
 
 QPixmap PDFPreviewImageProvider::renderPDFPage(unsigned int page) {
-	renderMutex.lock();
-	if (m_docs.empty()) {
-		qDebug() << "Pdf to be rendered was unloaded!";
-		return QPixmap();
+	QImage image;
+	{
+		// the early returns used to leave renderMutex locked
+		QMutexLocker locker(&renderMutex);
+		if (m_docs.empty()) {
+			qDebug() << "Pdf to be rendered was unloaded!";
+			return QPixmap();
+		}
+		// Document starts at page 0 in the poppler-qt6 API
+		std::unique_ptr<Poppler::Page> popplerPage = m_docs.at(m_filePath)->page(page - 1);
+
+		if (!popplerPage) {
+			qDebug() << "Failed to get page object: " << page;
+			return QPixmap();
+		}
+
+		const double resX = 300.0;
+		const double resY = 300.0;
+		image = popplerPage->renderToImage(resX, resY);
 	}
-	// Document starts at page 0 in the poppler-qt6 API
-	std::unique_ptr<Poppler::Page> popplerPage = m_docs.at(m_filePath)->page(page - 1);
-
-	if (!popplerPage) {
-		qDebug() << "Failed to get page object: " << page;
-		return QPixmap();
-	}
-
-	const double resX = 300.0;
-	const double resY = 300.0;
-	QImage image = popplerPage->renderToImage(resX, resY);
-
-	popplerPage.reset();
-	renderMutex.unlock();
 
 	if (!image.isNull()) {
 		return QPixmap::fromImage(image);

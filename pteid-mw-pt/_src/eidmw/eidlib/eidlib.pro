@@ -15,7 +15,6 @@ message("Compile $$TARGET")
 target.path = $${INSTALL_DIR_LIB}
 INSTALLS += target
 
-QMAKE_APPLE_DEVICE_ARCHS=$$PTEID_MACOS_ARCHS
 
 public_headers.files = eidlib.h CardCallbacks.h eidlibdefines.h eidlibException.h
 public_headers.path = $${INSTALL_DIR_INCLUDE}

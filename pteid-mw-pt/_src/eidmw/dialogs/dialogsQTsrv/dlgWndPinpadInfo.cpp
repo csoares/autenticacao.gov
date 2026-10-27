@@ -101,7 +101,7 @@ dlgWndPinpadInfo::dlgWndPinpadInfo(unsigned long ulHandle, DlgPinOperation opera
 	m_ulHandle = ulHandle;
 
 	Type_WndGeometry WndGeometry;
-	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->geometry().width(), QGuiApplication::primaryScreen()->geometry().height(),
+	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->virtualGeometry().width(), QGuiApplication::primaryScreen()->virtualGeometry().height(),
 						this->width(), this->height(), &WndGeometry)) {
 		parent->move(WndGeometry.x, WndGeometry.y);
 	}

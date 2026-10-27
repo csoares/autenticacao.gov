@@ -13,7 +13,6 @@ DESTDIR = ./../lib
 
 INCLUDEPATH += ../_Builds/ ../common/ ./poppler ./goo ./fofi
 
-QMAKE_APPLE_DEVICE_ARCHS=$$PTEID_MACOS_ARCHS
 
 SOURCES += poppler/Array.cc \
 	poppler/Annot.cc		\

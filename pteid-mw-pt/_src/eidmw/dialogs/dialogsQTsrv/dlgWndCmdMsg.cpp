@@ -92,7 +92,7 @@ dlgWndCmdMsg::dlgWndCmdMsg(DlgCmdOperation operation, DlgCmdMsgType type, QStrin
 QPushButton:hover{background-color: #C6C7C7}");
 
 	Type_WndGeometry WndGeometry;
-	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->geometry().width(), QGuiApplication::primaryScreen()->geometry().height(),
+	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->virtualGeometry().width(), QGuiApplication::primaryScreen()->virtualGeometry().height(),
 						this->width(), this->height(), &WndGeometry)) {
 		this->move(WndGeometry.x, WndGeometry.y);
 	}

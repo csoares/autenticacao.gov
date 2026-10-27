@@ -99,7 +99,7 @@ QPushButton:hover{background-color: #2C3DAC}");
 	ui.lblCenter->setWordWrap(true);
 
 	Type_WndGeometry WndGeometry;
-	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->geometry().width(), QGuiApplication::primaryScreen()->geometry().height(),
+	if (getWndCenterPos(pParentWndGeometry, QGuiApplication::primaryScreen()->virtualGeometry().width(), QGuiApplication::primaryScreen()->virtualGeometry().height(),
 						this->width(), this->height(), &WndGeometry)) {
 		this->move(WndGeometry.x, WndGeometry.y);
 	} /* if ( getWndCenterPos( pParentWndGeometry, ... ) ) */

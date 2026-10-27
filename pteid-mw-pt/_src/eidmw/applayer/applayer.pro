@@ -17,7 +17,6 @@ message("Compile $$TARGET")
 target.path = $${INSTALL_DIR_LIB}
 INSTALLS += target
 
-QMAKE_APPLE_DEVICE_ARCHS=$$PTEID_MACOS_ARCHS
 
 
 ###
