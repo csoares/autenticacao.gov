@@ -3,7 +3,8 @@ set -e
 
 #Print every command before it is executed as if it were a Makefile
 set -o xtrace
-MW_SOURCE_DIR=~/autenticacao.gov
+#Override with MW_SOURCE_DIR when the repository is checked out somewhere else
+MW_SOURCE_DIR=${MW_SOURCE_DIR:-$HOME/autenticacao.gov}
 #MW source directories, we're copying binaries and other files from here
 LIB_DIR=$MW_SOURCE_DIR/pteid-mw-pt/_src/eidmw/lib
 BIN_DIR=$MW_SOURCE_DIR/pteid-mw-pt/_src/eidmw/bin
@@ -40,12 +41,16 @@ VERSION="3.16.0.$git_revision"
 echo "Packaging PTEID version $VERSION"
 echo "IMPORTANT: Don't forget to update the version in apps/Info.plist and release notes in resources dir"
 
-echo "Ready to generate a new package? (y/n)"
-read is_ready
-
-if [ $is_ready != "y" ]
+#Set PTEID_PKG_ASSUME_YES to skip the confirmation, e.g. in CI
+if [ -z "$PTEID_PKG_ASSUME_YES" ]
 then
-	exit 1
+	echo "Ready to generate a new package? (y/n)"
+	read is_ready
+
+	if [ "$is_ready" != "y" ]
+	then
+		exit 1
+	fi
 fi
 
 #Clean previous resource files
@@ -136,7 +141,8 @@ then
 	./codesigning.sh "$SIGNING_CERTIFICATE"
 fi
 
-if [ -n "$SIGNING_CERTIFICATE" ]
+#"-" signs ad-hoc (codesigning.sh): the steps below need a Developer ID certificate
+if [ -n "$SIGNING_CERTIFICATE" ] && [ "$SIGNING_CERTIFICATE" != "-" ]
 then
 	SIGNING_IDENTITY="Developer ID Application: $SIGNING_CERTIFICATE"
 	ENTITLEMENTS_CTK=$CTK_BUNDLE_DIR/../../PteidToken/PteidToken.entitlements
@@ -154,7 +160,7 @@ pkgbuild --root certs --identifier pt.cartaodecidadao.certs --install-location /
 
 productbuild --distribution distribution.xml --resources resources --package-path pkg --version $VERSION pteid-mw-$VERSION.pkg
 
-if [ -n "$SIGNING_CERTIFICATE" ]
+if [ -n "$SIGNING_CERTIFICATE" ] && [ "$SIGNING_CERTIFICATE" != "-" ]
 then
 	echo "Signing the package with Apple Developer ID certificate..."
 	productsign --sign "Developer ID Installer: $SIGNING_CERTIFICATE" --timestamp pteid-mw-$VERSION.pkg pteid-mw-$VERSION-Signed.pkg
