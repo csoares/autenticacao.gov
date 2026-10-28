@@ -6,6 +6,12 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: Platforms to build
+        type: choice
+        options: [all, windows]
+        default: all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,6 +31,7 @@ jobs:
             runner: macos-15
           - arch: x86_64
             runner: macos-15-intel
+    if: inputs.platforms != 'windows'
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
@@ -145,6 +152,7 @@ jobs:
 
   flatpak:
     name: Linux Flatpak
+    if: inputs.platforms != 'windows'
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.11
@@ -157,3 +165,165 @@ jobs:
           manifest-path: pteid-mw-pt/_src/eidmw/pt.gov.autenticacao.yml
           bundle: pteid-mw.flatpak
           cache-key: flatpak-builder-${{ github.sha }}
+
+  windows-deps:
+    name: Windows libraries ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            vcvars: amd64
+            openpace: x64
+          - arch: x86
+            vcvars: amd64_x86
+            openpace: win32
+    runs-on: windows-2022
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: jurplel/install-qt-action@v4
+        if: matrix.arch == 'x64'
+        with:
+          version: ${{ env.QT_VERSION }}
+          arch: win64_msvc2022_64
+          modules: qt5compat
+          cache: true
+
+      # The most recent build, even a failed one: build-deps.ps1 skips the libraries
+      # whose recipe has not changed
+      - name: Restore the libraries
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            C:\mw-deps\${{ matrix.arch }}
+            C:\mw-deps\openpace\include
+            C:\mw-deps\openpace\${{ matrix.openpace }}
+          key: windows-deps-${{ matrix.arch }}-${{ env.QT_VERSION }}-${{ github.run_id }}
+          restore-keys: windows-deps-${{ matrix.arch }}-${{ env.QT_VERSION }}-
+
+      # NASM for libjpeg-turbo, jom (parallel nmake) for OpenSSL
+      - name: Install NASM and jom
+        run: |
+          choco install --no-progress -y nasm jom
+          "$env:ProgramFiles\NASM" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+      - name: Load the Visual Studio environment
+        run: .github/ci/windows/vcvars.ps1 -Arch ${{ matrix.vcvars }}
+
+      - name: Build the libraries
+        id: build
+        run: .github/ci/windows/build-deps.ps1 -Arch ${{ matrix.arch }} -Prefix C:\mw-deps\${{ matrix.arch }} -QtDir "$env:QT_ROOT_DIR"
+
+      - name: Save the libraries
+        if: always() && steps.build.outputs.built == 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            C:\mw-deps\${{ matrix.arch }}
+            C:\mw-deps\openpace\include
+            C:\mw-deps\openpace\${{ matrix.openpace }}
+          key: windows-deps-${{ matrix.arch }}-${{ env.QT_VERSION }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-deps-${{ matrix.arch }}
+          path: |
+            C:\mw-deps\${{ matrix.arch }}
+            C:\mw-deps\openpace\include
+            C:\mw-deps\openpace\${{ matrix.openpace }}
+          retention-days: 7
+
+  windows:
+    name: Windows installers
+    needs: windows-deps
+    runs-on: windows-2022
+    timeout-minutes: 120
+    env:
+      # pteid-mw-pt\windows\set_path_autenticacao.gov.bat keeps the variables that are already set
+      PTEID_DIR_OPENSSL: C:\mw-deps\x86\openssl
+      PTEID_DIR_XERCES: C:\mw-deps\x86\xerces
+      PTEID_XMLSECURITY: C:\mw-deps\x86\xmlsec
+      PTEID_DIR_CURL: C:\mw-deps\x86\curl
+      PTEID_DIR_ZLIB: C:\mw-deps\x86\zlib
+      PTEID_DIR_LIBZIP: C:\mw-deps\x86\libzip
+      PTEID_DIR_LIBPNG: C:\mw-deps\x86\libpng
+      PTEID_DIR_OPENJPEG: C:\mw-deps\x86\openjpeg
+      PTEID_DIR_CJSON: C:\mw-deps\x86\cjson
+      PTEID_DIR_OPEN_PACE: C:\mw-deps\openpace
+      PTEID_DIR_OPENSSL_X64: C:\mw-deps\x64\openssl
+      PTEID_DIR_XERCES_X64: C:\mw-deps\x64\xerces
+      PTEID_XMLSECURITY_X64: C:\mw-deps\x64\xmlsec
+      PTEID_DIR_CURL_X64: C:\mw-deps\x64\curl
+      PTEID_DIR_ZLIB_X64: C:\mw-deps\x64\zlib
+      PTEID_DIR_LIBZIP_X64: C:\mw-deps\x64\libzip
+      PTEID_DIR_LIBPNG_X64: C:\mw-deps\x64\libpng
+      PTEID_DIR_OPENJPEG_X64: C:\mw-deps\x64\openjpeg
+      PTEID_DIR_CJSON_X64: C:\mw-deps\x64\cjson
+      PTEID_POPPLER_QT6: C:\mw-deps\x64\poppler
+      PTEID_DIR_QML_X64: C:\mw-deps\qml-app
+      PTEID_DEPLOY_QT: '1'
+      PTEID_CREDENTIALS_FOLDER: C:\no-credentials
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # the package version uses the commit count
+
+      # qtshadertools: a dependency of the Qt5Compat.GraphicalEffects QML plugin
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          arch: win64_msvc2022_64
+          modules: qt5compat qtshadertools
+          cache: true
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: windows-deps-*
+          path: C:\mw-deps
+          merge-multiple: true
+
+      - name: Install the build tools
+        run: |
+          .github/ci/windows/setup-tools.ps1
+          "PTEID_DIR_QT_6_X64=$env:QT_ROOT_DIR" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
+
+      # The build script of the project: release_data.h/.wxs, checks of the dependencies and tools,
+      # then Release|Win32 and Release|x64 of _Builds\Autenticacao.gov.sln, including both installers
+      - name: Build the solution and the installers
+        shell: cmd
+        env:
+          DEBUG: '0'
+          OUTPUTLOG: '1'
+        run: call pteid-mw-pt\windows\ezbuild_sln_autenticacao.gov.bat < NUL
+
+      # devenv does not show the output of the commands of a project: run windeployqt again
+      - name: Show the windeployqt output
+        if: failure()
+        run: |
+          $env:PATH = "$env:PTEID_POPPLER_QT6\bin;$env:PATH"
+          & "$env:PTEID_DIR_QT_6_X64\bin\windeployqt.exe" --verbose 2 --release --no-compiler-runtime `
+            --qmldir pteid-mw-pt\_src\eidmw\eidguiV2 --dir "$env:RUNNER_TEMP\qml-app" `
+            pteid-mw-pt\_src\eidmw\_Binaries35\x64\Release\pteidguiV2.exe
+
+      - name: Check the installers
+        run: |
+          $msi = Get-ChildItem -Recurse pteid-mw-pt\_src\eidmw\misc\Wix_MW35\Autenticacao.gov-3.0\bin -Filter *.msi
+          $msi | Format-Table FullName, Length
+          if (-not ($msi | Where-Object Name -like '*x64*')) { throw 'The x64 installer was not built' }
+          if (($msi | Measure-Object).Count -lt 2) { throw 'The x86 installer was not built' }
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-msi
+          path: pteid-mw-pt/_src/eidmw/misc/Wix_MW35/Autenticacao.gov-3.0/bin/**/*.msi
