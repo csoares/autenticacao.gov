@@ -29,25 +29,25 @@ function rmdir_if_exists {
 function copy_external_dylibs {
 	DESTDIR=$1
 	echo "Copying External deps into $DESTDIR ..." 
-	cp -af $OPENSSL_PATH/libcrypto.3.dylib $DESTDIR
-	cp -af $OPENSSL_PATH/libssl.3.dylib $DESTDIR
-	cp -af $OPENSSL_PATH/ossl-modules/legacy.dylib $DESTDIR/ossl-modules/
-	cp -af $CURL_PATH/libcurl.4.dylib $DESTDIR
-	cp -af $XERCES_PATH/libxerces-c-3.2.dylib $DESTDIR
-	cp -af $XMLSECURITY_PATH/libxml-security-c.20.dylib $DESTDIR
+	# -L: the soname may be a symlink to the versioned file, depending on how the library was built
+	cp -fL $OPENSSL_PATH/libcrypto.3.dylib $DESTDIR
+	cp -fL $OPENSSL_PATH/libssl.3.dylib $DESTDIR
+	cp -fL $OPENSSL_PATH/ossl-modules/legacy.dylib $DESTDIR/ossl-modules/
+	cp -fL $CURL_PATH/libcurl.4.dylib $DESTDIR
+	cp -fL $XERCES_PATH/libxerces-c-3.2.dylib $DESTDIR
+	cp -fL $XMLSECURITY_PATH/libxml-security-c.20.dylib $DESTDIR
 	cp -af $OPENJPEG_PATH/libopenjp2.dylib   $DESTDIR
 	cp -af $OPENJPEG_PATH/libopenjp2.7.dylib $DESTDIR
 	cp -af $OPENJPEG_PATH/libopenjp2.2.4.0.dylib $DESTDIR
-	cp -af $LIBPNG_PATH/libpng16.16.dylib $DESTDIR
-	cp -af $LIBZIP_PATH/libzip.5.dylib $DESTDIR
-	cp -af $LIBZIP_PATH/libzip.5.5.dylib $DESTDIR
-	#Dereference the symlink, the soname changes with each poppler release
-	cp     $(ls $POPPLER_PATH/libpoppler.[0-9]*.dylib | head -1) $DESTDIR
+	cp -fL $LIBPNG_PATH/libpng16.16.dylib $DESTDIR
+	cp -fL $LIBZIP_PATH/libzip.5.dylib $DESTDIR
+	#The soname changes with each poppler release: copy the soname (libpoppler.<N>.dylib), dereferenced
+	cp -fL $(ls $POPPLER_PATH/libpoppler.[0-9]*.dylib | grep -E '/libpoppler\.[0-9]+\.dylib$') $DESTDIR
 
-	cp -af $POPPLER_DEPS/libfreetype.6.dylib $DESTDIR
-	cp -af $POPPLER_DEPS/libfontconfig.1.dylib $DESTDIR
-	cp -af $POPPLER_DEPS/libjpeg.62.dylib $DESTDIR
-	cp -af $POPPLER_DEPS/libtiff.6.dylib $DESTDIR
+	cp -fL $POPPLER_DEPS/libfreetype.6.dylib $DESTDIR
+	cp -fL $POPPLER_DEPS/libfontconfig.1.dylib $DESTDIR
+	cp -fL $POPPLER_DEPS/libjpeg.62.dylib $DESTDIR
+	cp -fL $POPPLER_DEPS/libtiff.6.dylib $DESTDIR
 }
 
 # Create Autenticação.gov.app from the eidguiV2 build and add the Qt frameworks, plugins,
