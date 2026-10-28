@@ -40,7 +40,7 @@ public:
 private:
 	template <typename T> static QFuture<T> track(QFuture<T> future) {
 		cleanFutureList();
-		m_futures.append(future);
+		m_futures.append(QFuture<void>(future));
 		return future;
 	}
 
