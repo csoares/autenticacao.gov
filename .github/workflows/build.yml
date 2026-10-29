@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [qt6-macos-arm64, 'ci/**']
+    branches: [master, qt6-macos-arm64]
     tags: ['v*']
   pull_request:
   workflow_dispatch:
