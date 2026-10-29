@@ -138,7 +138,7 @@ void BacAuthentication::authenticate(const CByteArray &mrzInfo) {
 	// --------------------
 	// Generate session keys and SSC
 	unsigned char kseed[16] = {0}; // Kseed = XOR of Kicc and Kifd
-	for (int i = 0; i < keyIfd.Size(); i++) {
+	for (unsigned long i = 0; i < keyIfd.Size() && i < sizeof(kseed); i++) {
 		kseed[i] = keyIfd.GetByte(i) ^ keyIcc.GetByte(i);
 	}
 	m_sm.deriveKeys({kseed, sizeof(kseed)});

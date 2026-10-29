@@ -285,7 +285,7 @@ static std::basic_string<XMLCh> generateNodeID() {
 #if _XSEC_VERSION_FULL >= 20000L
 	unsigned char b[128] = {0};
 	XMLCh id[258] = {0};
-	int toGen = 20;
+	const unsigned int toGen = 20;
 
 	if (RAND_bytes(b, toGen) != 1) {
 		MWLOG(LEV_ERROR, MOD_APL, "%s: RAND_bytes entropy source failed or is not available!", __FUNCTION__);
