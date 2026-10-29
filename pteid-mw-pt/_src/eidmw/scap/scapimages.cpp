@@ -145,9 +145,12 @@ QByteArray get_scap_image_data(const std::vector<ScapAttribute> &attributes) {
 	QByteArray result;
 	if (QFile::exists(cache_path)) {
 		QFile image_file(cache_path);
-		image_file.open(QIODevice::ReadOnly);
-		result = image_file.readAll();
-		image_file.close();
+		if (image_file.open(QIODevice::ReadOnly)) {
+			result = image_file.readAll();
+			image_file.close();
+		} else {
+			MWLOG(LEV_ERROR, MOD_SCAP, "Failed to open image from cache! Path: %s", cache_path.toStdString().c_str());
+		}
 	} else {
 		MWLOG(LEV_ERROR, MOD_SCAP, "Failed to load image from cache! File does not exist. Path: %s",
 			  cache_path.toStdString().c_str());
