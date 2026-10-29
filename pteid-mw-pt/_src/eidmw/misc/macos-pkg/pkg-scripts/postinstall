@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Amend the Bundle-ID related problems in 3.15.0. and 3.16.0
+#Amend the Bundle-ID related problems in 3.15.0 and 3.16.0
 
 DLGS_HELPER="pteiddialogsQTsrv"
 NEW_ID="pt.gov.pteiddialogsQTsrv"   # new CFBundleIdentifier
