@@ -17,6 +17,10 @@ function relink_to_system_libs {
 	done
 }
 
+# QML LocalStorage only needs the SQLite driver; the other SQL drivers deployed by macdeployqt
+# link to libraries that are not shipped (ODBC, PostgreSQL, MySQL)
+find Autenticação.gov.app/Contents/PlugIns/sqldrivers -type f ! -name 'libqsqlite.dylib' -delete 2>/dev/null
+
 # Every Mach-O file of the bundle: the Qt framework binaries are not marked executable
 BUNDLE_BINARIES=$(find Autenticação.gov.app/Contents -type f -exec file {} + | grep 'Mach-O' | cut -d: -f1)
 

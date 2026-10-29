@@ -103,6 +103,21 @@ cp -af $MISC_DIR/pteid_uninstall.sh $BIN_BUNDLE_DIR
 chmod +x $BIN_BUNDLE_DIR/pteid_uninstall.sh
 cd $BIN_BUNDLE_DIR
 bash ./change_paths.sh
+cd $PKG_DIR
+
+# Every dependency must be a system library, a library installed in /usr/local/lib by pteid-lib.pkg
+# or a library of the app bundle, never a path of the build machine
+unresolved=$(find system-libs/lib apps dialogs -type f -print0 | while IFS= read -r -d '' f
+do
+	file -b "$f" | grep -q Mach-O || continue
+	otool -X -L "$f" | awk -v f="$f" '$1 !~ /^(\/usr\/lib\/|\/System\/|\/usr\/local\/lib\/|@rpath\/|@loader_path\/|@executable_path\/)/ {print f ": " $1}'
+done)
+if [ -n "$unresolved" ]
+then
+	echo "Dependencies outside the system, /usr/local/lib and the app bundle:"
+	echo "$unresolved"
+	exit 1
+fi
 
 rmdir_if_exists $CERTS_BUNDLE_DIR
 mkdir -p $CERTS_BUNDLE_DIR/certs
