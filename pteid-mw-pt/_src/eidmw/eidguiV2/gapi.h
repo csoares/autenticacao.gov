@@ -30,7 +30,9 @@
 	#pragma warning(disable: 4996)
 #else
 	#pragma GCC diagnostic push
+	#ifndef __clang__
 	#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+	#endif
 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
@@ -396,27 +398,25 @@ public:
 		ICAOData,
 	};
 
-	Q_ENUMS(ScapPdfSignResult)
-	Q_ENUMS(CardAccessError)
-	Q_ENUMS(RemoteAddressError)
-	Q_ENUMS(eCustomEventType)
-	Q_ENUMS(IDInfoKey)
-	Q_ENUMS(ICAOInfoKey)
-	Q_ENUMS(AddressInfoKey)
-	Q_ENUMS(UI_LANGUAGE)
-	Q_ENUMS(SignMessage)
-	Q_ENUMS(PrintMessage)
-	Q_ENUMS(AutoUpdateMessage)
-	Q_ENUMS(AutoUpdateType)
-	Q_ENUMS(PinUsage)
-	Q_ENUMS(CmdDialogClass)
-	Q_ENUMS(SignatureLevel)
-	Q_ENUMS(ShortcutId)
-	Q_ENUMS(TelemetryAction)
-	Q_ENUMS(TelemetryStatus)
-	Q_ENUMS(OAuthErrors)
-	Q_ENUMS(CardOperation);
-	Q_ENUMS(PaceError);
+	Q_ENUM(ScapPdfSignResult)
+	Q_ENUM(CardAccessError)
+	Q_ENUM(RemoteAddressError)
+	Q_ENUM(eCustomEventType)
+	Q_ENUM(IDInfoKey)
+	Q_ENUM(ICAOInfoKey)
+	Q_ENUM(AddressInfoKey)
+	Q_ENUM(SignMessage)
+	Q_ENUM(PrintMessage)
+	Q_ENUM(AutoUpdateMessage)
+	Q_ENUM(AutoUpdateType)
+	Q_ENUM(PinUsage)
+	Q_ENUM(CmdDialogClass)
+	Q_ENUM(ShortcutId)
+	Q_ENUM(TelemetryAction)
+	Q_ENUM(TelemetryStatus)
+	Q_ENUM(OAuthErrors)
+	Q_ENUM(CardOperation)
+	Q_ENUM(PaceError)
 
 	QQuickImageProvider *buildImageProvider() { return image_provider; }
 	QQuickImageProvider *buildPdfImageProvider() { return image_provider_pdf; }
