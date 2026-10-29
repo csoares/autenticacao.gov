@@ -245,8 +245,9 @@ char *generateFinalPath(const char *output_dir, const char *path) {
 	replace_lastdot_inplace(tmp_path);
 
 	// Buffer for the filename components plus ".zip" plus PATH_SEP and terminating NULL
-	char *final_path = new char[strlen(output_dir) + strlen(tmp_path) + 6 + 1 + 1];
-	sprintf(final_path, "%s" PATH_SEP "%s.zip", output_dir, tmp_path);
+	size_t final_path_size = strlen(output_dir) + strlen(tmp_path) + 6 + 1 + 1;
+	char *final_path = new char[final_path_size];
+	snprintf(final_path, final_path_size, "%s" PATH_SEP "%s.zip", output_dir, tmp_path);
 	delete[] tmp_path;
 
 	return final_path;

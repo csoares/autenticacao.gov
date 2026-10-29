@@ -525,9 +525,12 @@ void binToHex(const unsigned char *in, size_t in_len, char *out, size_t out_len)
 	unsigned int n;
 	char *pos;
 
+	if (out_len == 0)
+		return;
+
 	pos = out;
-	for (n = 0; n < in_len; n++) {
-		sprintf(pos, "%02x", in[n]);
+	for (n = 0; n < in_len && 2 * n + 2 < out_len; n++) {
+		snprintf(pos, 3, "%02x", in[n]);
 		pos += 2;
 	}
 	*pos = '\0';
