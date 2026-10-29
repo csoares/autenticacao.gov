@@ -38,7 +38,7 @@ dlgWndAskPIN::dlgWndAskPIN(DlgPinInfo pinInfo, DlgPinUsage PinPusage, QString &H
 
 	if (pinInfo.ulFlags & PIN_FLAG_DIGITS) {
 		char buffer[20];
-		sprintf(buffer, "[0-9]{%llu,%llu}", pinInfo.ulMinLen, pinInfo.ulMaxLen);
+		snprintf(buffer, sizeof(buffer), "[0-9]{%llu,%llu}", pinInfo.ulMinLen, pinInfo.ulMaxLen);
 		QRegularExpression rx(buffer);
 		m_PinValidator = new QRegularExpressionValidator(rx, 0);
 	} else {

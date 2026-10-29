@@ -52,11 +52,11 @@ dlgWndAskCmd::dlgWndAskCmd(DlgCmdOperation operation, bool isValidateOtp, QStrin
 	m_ulCodeMaxLen = (isValidateOtp ? 6 : 8);
 
 	char buffer[20];
-	sprintf(buffer, "[0-9]{%u,%u}", m_ulIdMinLen, m_ulIdMaxLen);
+	snprintf(buffer, sizeof(buffer), "[0-9]{%u,%u}", m_ulIdMinLen, m_ulIdMaxLen);
 	QRegularExpression rx(buffer);
 	m_IdValidator = new QRegularExpressionValidator(rx, 0);
 
-	sprintf(buffer, "[0-9]{%u,%u}", m_ulCodeMinLen, m_ulCodeMaxLen);
+	snprintf(buffer, sizeof(buffer), "[0-9]{%u,%u}", m_ulCodeMinLen, m_ulCodeMaxLen);
 	rx.setPattern(buffer);
 	m_CodeValidator = new QRegularExpressionValidator(rx, 0);
 

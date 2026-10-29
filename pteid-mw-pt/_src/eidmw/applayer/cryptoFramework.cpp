@@ -2052,7 +2052,7 @@ BIO *APL_CryptoFwk::Connect(char *pszHost, int iPort, int iSSL, SSL_CTX **ppSSLC
 	}
 
 	char port_buffer[10];
-	sprintf(port_buffer, "%d", iPort);
+	snprintf(port_buffer, sizeof(port_buffer), "%d", iPort);
 	BIO_set_conn_port(pConnect, port_buffer);
 
 	// Set BIO as nonblocking

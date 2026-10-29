@@ -45,7 +45,7 @@ dlgWndAskPINs::dlgWndAskPINs(DlgPinInfo pinInfo1, DlgPinInfo pinInfo2, QString &
 
 	if (pinInfo1.ulFlags & PIN_FLAG_DIGITS) {
 		char buffer[20];
-		sprintf(buffer, "[0-9]{%u,%u}", m_ulPin1MinLen, m_ulPin1MaxLen);
+		snprintf(buffer, sizeof(buffer), "[0-9]{%u,%u}", m_ulPin1MinLen, m_ulPin1MaxLen);
 		QRegularExpression rx(buffer);
 		m_Pin1Validator = new QRegularExpressionValidator(rx, 0);
 	} else {
@@ -54,7 +54,7 @@ dlgWndAskPINs::dlgWndAskPINs(DlgPinInfo pinInfo1, DlgPinInfo pinInfo2, QString &
 
 	if (pinInfo2.ulFlags & PIN_FLAG_DIGITS) {
 		char buffer[20];
-		sprintf(buffer, "[0-9]{%u,%u}", m_ulPin2MinLen, m_ulPin2MaxLen);
+		snprintf(buffer, sizeof(buffer), "[0-9]{%u,%u}", m_ulPin2MinLen, m_ulPin2MaxLen);
 		QRegularExpression rx(buffer);
 		m_Pin2Validator = new QRegularExpressionValidator(rx, 0);
 	} else {
