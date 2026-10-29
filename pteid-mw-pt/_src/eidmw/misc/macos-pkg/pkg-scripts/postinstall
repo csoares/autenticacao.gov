@@ -1,12 +1,56 @@
 #!/bin/bash
 
-#postinstall script to amend the broken upgrade in build 3.1.0
-#If build 3.1.0 was cleanly installed this is still needed to restore the correct dir structure
+#Amend the Bundle-ID related problems in 3.15.0 and 3.16.0
 
-if [ -d "/Applications/Autenticação.gov.localized/Autenticação.gov.app" ]
-then
-   mv "/Applications/Autenticação.gov.localized/Autenticação.gov.app" "/Applications/Autenticação.gov.app"
-   rm -rf "/Applications/Autenticação.gov.localized"
+DLGS_HELPER="pteiddialogsQTsrv"
+NEW_ID="pt.gov.pteiddialogsQTsrv"   # new CFBundleIdentifier
+
+TARGET="${3:-/}"
+TARGET="${TARGET%/}"  # Remove trailing slash
+DIR="$TARGET/usr/local/bin"
+DEST="$DIR/$DLGS_HELPER.app"
+PLISTBUDDY="/usr/libexec/PlistBuddy"
+
+shopt -s nullglob
+candidates=( "$DIR/$DLGS_HELPER"*.localized/"$DLGS_HELPER".app )
+shopt -u nullglob
+
+if [ ${#candidates[@]} -eq 0 ]; then
+    echo "postinstall: no relocated $DLGS_HELPER.app found, nothing to do"
+    exit 0
+fi
+
+# Among copies with the new bundle ID, pick the one whose .localized
+# folder was created most recently (i.e. by this install)
+best=""
+best_birth=0
+for app in "${candidates[@]}"; do
+    id=$("$PLISTBUDDY" -c "Print :CFBundleIdentifier" "$app/Contents/Info.plist" 2>/dev/null)
+    [ "$id" = "$NEW_ID" ] || continue
+    birth=$(/usr/bin/stat -f %B "$(dirname "$app")" 2>/dev/null || echo 0)
+    if [ -z "$best" ] || [ "$birth" -gt "$best_birth" ]; then
+        best="$app"
+        best_birth="$birth"
+    fi
+done
+
+if [ -z "$best" ]; then
+    echo "postinstall: relocated copies found but none with id $NEW_ID; leaving them in place"
+    exit 0
+fi
+
+echo "postinstall: moving dialogs bundle $best to $DEST"
+
+# Remove whatever is at the destination so mv cannot nest the bundle
+if [ -e "$DEST" ]; then
+    /bin/rm -rf "$DEST"
+fi
+
+if /bin/mv "$best" "$DEST"; then
+    # Remove every relocation folder, including leftovers from earlier attempts
+    /bin/rm -rf "$DIR/$DLGS_HELPER"*.localized
+else
+    echo "postinstall: mv failed; relocated copy left at $best"
 fi
 
 #Generate fontconfig cache in advance

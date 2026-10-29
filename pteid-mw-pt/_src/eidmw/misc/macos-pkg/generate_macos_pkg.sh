@@ -35,7 +35,7 @@ cd ../../eidlibdotnetsdk
 sh ./generate_cs.sh
 popd
 
-VERSION="3.16.0.$git_revision"
+VERSION="3.16.1.$git_revision"
 
 echo "Packaging PTEID version $VERSION"
 echo "IMPORTANT: Don't forget to update the version in apps/Info.plist and release notes in resources dir"
@@ -95,6 +95,8 @@ cp -af $THIRD_PARTY_DEPS/fc-cache $BIN_BUNDLE_DIR
 rmdir_if_exists $BIN_BUNDLE_DIR/pteiddialogsQTsrv.app
 cp -af $BIN_DIR/pteiddialogsQTsrv.app $BIN_BUNDLE_DIR
 cp -af $MISC_DIR/pteid_uninstall.sh $BIN_BUNDLE_DIR
+# Keep this Info.plist under control
+cp -f $BIN_BUNDLE_DIR/Info.plist $BIN_BUNDLE_DIR/pteiddialogsQTsrv.app/Contents/Info.plist
 chmod +x $BIN_BUNDLE_DIR/pteid_uninstall.sh
 cd $BIN_BUNDLE_DIR
 bash ./change_paths.sh
@@ -147,6 +149,7 @@ fi
 recreate_dir $PKG_DIR/pkg/
 
 # Build component packages and the final "product" package
+pkgbuild --nopayload --scripts ./cleanup-scripts --identifier pt.cartaodecidadao.cleanup --version $VERSION pkg/cleanup.pkg
 pkgbuild --filter '.*/change_paths.sh' --root system-libs --install-location /usr/local --identifier pt.cartaodecidadao.lib --version $VERSION --ownership recommended pkg/pteid-lib.pkg
 pkgbuild --filter '.*/change_paths.sh' --root dialogs --install-location /usr/local/bin --component-plist dialogs/apps.plist --identifier pt.cartaodecidadao.bin --version $VERSION  --ownership recommended pkg/pteid-bin.pkg
 pkgbuild --filter '.*/change_paths.sh' --root apps --install-location /Applications --scripts pkg-scripts/ --component-plist apps.plist --identifier pt.cartaodecidadao.apps --version $VERSION  --ownership recommended pkg/pteid-apps.pkg
