@@ -364,6 +364,9 @@ bad_pin:
 		oAPDUCHANGE.Append((unsigned char)oPinBuf.Size()); // add P3
 		oAPDUCHANGE.Append(MakePinBuf(Pin, *pcsPin2, bUsePinpad, bPukMerge));
 		break;
+	default:
+		// As in MakePinCmdIAS: no reset without PUK on these cards
+		throw CMWEXCEPTION(EIDMW_ERR_PIN_OPERATION);
 	}
 
 	bool bSelected = false;
@@ -398,13 +401,16 @@ bad_pin:
 			case PIN_OP_RESET:
 				oResp = SendAPDU(oAPDU);
 				break;
-			case PIN_OP_CHANGE:
+			case PIN_OP_CHANGE: {
 				oResp = SendAPDU(oAPDU);
 
 				unsigned long ulSW12 = getSW12(oResp);
 				if (ulSW12 == 0x9000)
 					oResp = SendAPDU(oAPDUCHANGE);
 				break;
+			}
+			default:
+				break; // rejected when building the APDU
 			}
 		}
 	}

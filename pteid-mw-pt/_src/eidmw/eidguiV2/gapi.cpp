@@ -447,7 +447,8 @@ QString GAPI::loadCountryName(const QString &threeLetterCode, const QString &lan
 	QFile file;
 	QString useLanguage = language == "nl" ? "pt" : "en";
 	file.setFileName(filePath);
-	file.open(QIODevice::ReadOnly | QIODevice::Text);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		return threeLetterCode;
 	QString val = file.readAll();
 	file.close();
 	QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
@@ -1002,7 +1003,7 @@ void GAPI::doStartPACEAuthentication(QString pace_can, CardOperation op) {
 
 				cardIcao = &readerContext.getICAOCard();
 
-			} catch (PTEID_Exception err) {
+			} catch (const PTEID_Exception &err) {
 				qDebug() << "Error while trying to create ICAO Card object! error: " << Qt::hex << err.GetError();
 			}
 		}
@@ -3800,7 +3801,11 @@ void GAPI::doExportCardCertificate(QString issuedBy, QString issuedTo, QString o
 	cert.getFormattedData(certData);
 
 	QFile file(outputPath);
-	file.open(QIODevice::WriteOnly);
+	if (!file.open(QIODevice::WriteOnly)) {
+		PTEID_LOG(eIDMW::PTEID_LOG_LEVEL_ERROR, "eidgui", "doExportCardCertificate: could not open the output file");
+		emit signalExportCertificates(false);
+		return;
+	}
 	int bytesWritten = file.write((const char *)certData.GetBytes(), certData.Size());
 	file.close();
 	if (bytesWritten < 0) {
@@ -4127,9 +4132,8 @@ bool GAPI::useCustomSignature(void) {
 	QString customImagePath = m_Settings.getPteidCachedir() + "/CustomSignPicture.jpg";
 	QFile custom_image(customImagePath);
 
-	if (m_Settings.getUseCustomSignature() && custom_image.exists()) {
+	if (m_Settings.getUseCustomSignature() && custom_image.open(QIODevice::ReadOnly)) {
 		qDebug() << "Using Custom Picture to sign a PDF";
-		custom_image.open(QIODevice::ReadOnly);
 		m_jpeg_scaled_data = custom_image.readAll();
 		custom_image.close();
 		return true;
