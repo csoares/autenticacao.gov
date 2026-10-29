@@ -601,7 +601,7 @@ CByteArray CPkiCard::SelectByPath(const std::string &csPath, bool bReturnFileInf
 	selectByPathAPDU.Append(0xA4);
 	selectByPathAPDU.Append(oPath.Size() > 2 || select_by_path_from_mf ? 0x08 : 0x02);
 	selectByPathAPDU.Append(bReturnFileInfo ? 0x00 : 0x0C);
-	selectByPathAPDU.Append(oPath.Size());
+	selectByPathAPDU.Append((unsigned char)oPath.Size());
 	selectByPathAPDU.Append(oPath);
 	selectByPathAPDU.Append(0x00);
 

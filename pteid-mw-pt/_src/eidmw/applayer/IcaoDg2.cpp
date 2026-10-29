@@ -274,7 +274,7 @@ FaceInfo::FaceInfo(const unsigned char *biometricData, int biometricDataLen) {
 				sizePhotoRaw = available;
 			}
 
-			data->m_photoRawData = CByteArray(biometricData, sizePhotoRaw);
+			data->m_photoRawData = CByteArray(biometricData, (unsigned long)sizePhotoRaw);
 			bool img_datatype_check = checkImageDataType(data->m_photoRawData, data->m_imgDataType);
 			MWLOG(LEV_INFO, MOD_APL, "DG2 image %ld data type check: %s", i, img_datatype_check ? "OK" : "NOT_OK");
 
