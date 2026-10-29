@@ -60,4 +60,4 @@ echo "Signing pteiddialogsQTsrv executable..."
 codesign --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME dialogs/pteiddialogsQTsrv.app/Contents/MacOS/pteiddialogsQTsrv
 
 echo "Signing fc-cache executable..."
-codesign --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME dialogs/fc-cache
+codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME dialogs/fc-cache
