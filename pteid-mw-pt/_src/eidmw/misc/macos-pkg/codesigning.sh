@@ -8,10 +8,15 @@ set -o xtrace
 
 DEVELOPER_ID_CERT=$1
 SIGNING_IDENTITY="Developer ID Application: $DEVELOPER_ID_CERT"
-# "-" signs ad-hoc, useful to test the package without the Developer ID certificate
+# Hardened runtime, required for notarization
+HARDENED_RUNTIME="-o runtime"
+# "-" signs ad-hoc, useful to test the package without the Developer ID certificate.
+# Without hardened runtime: its library validation rejects ad-hoc signed libraries, which have
+# no Team ID (fc-cache could not load libfontconfig in the postinstall script)
 if [ "$DEVELOPER_ID_CERT" = "-" ]
 then
 	SIGNING_IDENTITY="-"
+	HARDENED_RUNTIME=""
 fi
 echo "############# Starting codesigning script #############"
 echo ""
@@ -41,18 +46,18 @@ find "apps/Autenticação.gov.app/Contents/Frameworks" -maxdepth 1 -name '*.dyli
 
 ENTITLEMENTS_CTK=../../pteid-ctk/PteidToken/PteidToken.entitlements
 #Sign PteidToken extension with its own entitlements file
-codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp -o runtime --entitlements ${ENTITLEMENTS_CTK} apps/Autenticação.gov.app/Contents/PlugIns/PteidToken.appex
+codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME --entitlements ${ENTITLEMENTS_CTK} apps/Autenticação.gov.app/Contents/PlugIns/PteidToken.appex
 
 #Sign applications with hardened runtime enabled and entitlements file if needed
 echo "Signing appbundle..."
 find "apps/Autenticação.gov.app/Contents/Resources" -name '*.dylib' -exec codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp "{}" \;
 find "apps/Autenticação.gov.app/Contents/PlugIns" -name '*.dylib' -exec codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp "{}" \;
 
-codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp -o runtime --entitlements entitlements.plist apps/Autenticação.gov.app/
+codesign --force --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME --entitlements entitlements.plist apps/Autenticação.gov.app/
 
 #Sign DialogsQTsrv executable
 echo "Signing pteiddialogsQTsrv executable..."
-codesign --verbose -s "$SIGNING_IDENTITY" --timestamp -o runtime dialogs/pteiddialogsQTsrv.app/Contents/MacOS/pteiddialogsQTsrv
+codesign --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME dialogs/pteiddialogsQTsrv.app/Contents/MacOS/pteiddialogsQTsrv
 
 echo "Signing fc-cache executable..."
-codesign --verbose -s "$SIGNING_IDENTITY" --timestamp -o runtime dialogs/fc-cache
+codesign --verbose -s "$SIGNING_IDENTITY" --timestamp $HARDENED_RUNTIME dialogs/fc-cache
