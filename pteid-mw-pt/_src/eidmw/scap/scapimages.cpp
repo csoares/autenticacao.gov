@@ -30,8 +30,7 @@ static QString get_logos_cache_path() {
 
 static QString get_unique_image_filename(const std::string &provider_id) {
 	QCryptographicHash unique_filename(QCryptographicHash::Sha256);
-	assert(provider_id.size() <= INT_MAX);
-	unique_filename.addData(provider_id.c_str(), (int) provider_id.size());
+	unique_filename.addData(QByteArrayView(provider_id.data(), provider_id.size()));
 
 	return "/scap_" + unique_filename.result().toHex(0) + ".jpeg";
 }
