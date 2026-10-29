@@ -140,7 +140,8 @@ autotools_build "$src" "$POPPLER_DEPS" --disable-static --with-png=yes --with-ha
 	LIBPNG_CFLAGS="-I$DEPS/libpng/include/libpng16" LIBPNG_LIBS="-L$DEPS/libpng/lib -lpng16"
 
 src=$(fetch fontconfig-2.15.0.tar.xz)
-(cd "$src" && ./configure --prefix="$POPPLER_DEPS" --disable-static --disable-docs --disable-cache-build \
+# --disable-nls: otherwise configure links to the libintl of the runner's Homebrew
+(cd "$src" && ./configure --prefix="$POPPLER_DEPS" --disable-static --disable-docs --disable-cache-build --disable-nls \
 	--sysconfdir=/usr/local/etc --localstatedir=/usr/local/var --with-default-fonts=/System/Library/Fonts \
 	--with-add-fonts=/Library/Fonts,~/Library/Fonts \
 	EXPAT_CFLAGS="-I$POPPLER_DEPS/include" EXPAT_LIBS="-L$POPPLER_DEPS/lib -lexpat" &&
