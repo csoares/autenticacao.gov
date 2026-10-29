@@ -837,7 +837,7 @@ void CPathUtil::generate_unique_filenames(const char *folder, std::vector<std::s
 	std::vector<std::pair<std::string, int>> filenames_counter;
 	std::vector<std::string> unique_filenames;
 
-	for (int i = 0; i < filenames.size(); i++) {
+	for (size_t i = 0; i < filenames.size(); i++) {
 
 		std::string basename = std::string(Basename((char *)(filenames[i]->c_str())));
 		std::string clean_filename = CPathUtil::remove_ext_from_basename(basename.c_str());
