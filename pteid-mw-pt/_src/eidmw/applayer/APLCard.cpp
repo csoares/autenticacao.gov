@@ -715,7 +715,7 @@ std::pair<EIDMW_DataGroupReport, CByteArray> APL_ICAO::readDatagroup(DataGroupID
 		initializeCard();
 	}
 
-	BEGIN_CAL_OPERATION(m_reader) { out = readFile(DATAGROUP_PATHS.at(tag)); }
+	BEGIN_CAL_OPERATION(m_reader) { out = readIcaoFile(DATAGROUP_PATHS.at(tag)); }
 	END_CAL_OPERATION(m_reader);
 
 	// store hashes
@@ -788,7 +788,7 @@ void APL_ICAO::loadAvailableDataGroups() {
 	if (m_SodAttributes)
 		return;
 
-	CByteArray oData = readFile(SOD_PATH);
+	CByteArray oData = readIcaoFile(SOD_PATH);
 
 	CByteArray sod;
 	auto report = verifySodFileIntegrity(oData, sod);
@@ -1015,7 +1015,7 @@ EIDMW_SodReport APL_ICAO::verifySodFileIntegrity(const CByteArray &data, CByteAr
 	return report;
 }
 
-CByteArray APL_ICAO::readFile(const std::string &csPath) const {
+CByteArray APL_ICAO::readIcaoFile(const std::string &csPath) const {
 	auto out = m_reader->getCalReader()->ReadFile(csPath);
 
 	// remove padding
@@ -1059,7 +1059,7 @@ EIDMW_ActiveAuthenticationReport APL_ICAO::performActiveAuthentication() {
 	auto cryptFwk = AppLayer.getCryptoFwk();
 
 	// CByteArray security_file;
-	CByteArray secopt_file = readFile(PTEID_FILE_SECURITY);
+	CByteArray secopt_file = readIcaoFile(PTEID_FILE_SECURITY);
 	report.dg14.Append(secopt_file);
 
 	char *dg14_str = byteArrayToHexString(secopt_file.GetBytes(), secopt_file.Size());
@@ -1081,7 +1081,7 @@ EIDMW_ActiveAuthenticationReport APL_ICAO::performActiveAuthentication() {
 
 	try {
 		// read public key DG15
-		CByteArray pubkey_file = readFile(PTEID_FILE_PUB_KEY_AA);
+		CByteArray pubkey_file = readIcaoFile(PTEID_FILE_PUB_KEY_AA);
 		report.dg15 = pubkey_file;
 
 		// Store hashes
@@ -1144,7 +1144,7 @@ EIDMW_ChipAuthenticationReport APL_ICAO::performChipAuthentication() {
 
 	// Chip authentication is performed after Active Authentication.
 	// No need to re-verify DG14 hash as it was already performed during the previous AA step
-	auto dg14 = readFile(DATAGROUP_PATHS.at(DG14));
+	auto dg14 = readIcaoFile(DATAGROUP_PATHS.at(DG14));
 	auto security_infos = decodeDg14Data(dg14);
 	if (!security_infos) {
 		MWLOG_CTX(LEV_ERROR, MOD_APL, "Failed to decode DG14 Security Options structure!");
