@@ -1551,7 +1551,7 @@ void APL_CryptoFwk::performActiveAuthentication(const ASN1_OBJECT *oid, const CB
 	} else { /* RSA signature */
 		signature.Chop(2);
 		CByteArray ifd_random(data_to_sign, sizeof(data_to_sign));
-		MWLOG(LEV_DEBUG, MOD_APL, "Verifying active authentication signature of type RSA and size: %d",
+		MWLOG(LEV_DEBUG, MOD_APL, "Verifying active authentication signature of type RSA and size: %lu",
 			  signature.Size());
 
 		AA_RsaSignatureVerify(ifd_random, signature, pkey);
@@ -1744,7 +1744,7 @@ X509_STORE *APL_CryptoFwk::getMultipassStore() {
 				X509_STORE_add_cert(m_multipassStore, pX509);
 				X509_free(pX509);
 			}
-			MWLOG(LEV_DEBUG, MOD_APL, "%d. Adding certificate Subject CN: %s", i, sod_ca->getOwnerName());
+			MWLOG(LEV_DEBUG, MOD_APL, "%lu. Adding certificate Subject CN: %s", i, sod_ca->getOwnerName());
 		}
 
 		certs.clearSODCAs();

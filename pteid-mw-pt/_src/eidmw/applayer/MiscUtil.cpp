@@ -393,7 +393,7 @@ long der_get_length(const CByteArray &der_object) {
 	const unsigned char *op = der_data;
 
 	int ret = ASN1_get_object(&der_data, &len, &tag, &xclass, der_object.Size());
-	MWLOG(LEV_DEBUG, MOD_APL, "%s: Ret=%02x Decoded object len: %d tag: %d, class: %d", __FUNCTION__, ret, len, tag,
+	MWLOG(LEV_DEBUG, MOD_APL, "%s: Ret=%02x Decoded object len: %ld tag: %d, class: %d", __FUNCTION__, ret, len, tag,
 		  xclass);
 
 	if (ret != 0x00 && len == 0) {
@@ -413,7 +413,7 @@ long der_certificate_length(const CByteArray &der_certificate) {
 	const unsigned char *op = der_data;
 
 	int ret = ASN1_get_object(&der_data, &len, &tag, &xclass, der_certificate.Size());
-	MWLOG(LEV_DEBUG, MOD_APL, "%s: Ret=%02x Decoded object len: %d tag: %d, class: %d", __FUNCTION__, ret, len, tag,
+	MWLOG(LEV_DEBUG, MOD_APL, "%s: Ret=%02x Decoded object len: %ld tag: %d, class: %d", __FUNCTION__, ret, len, tag,
 		  xclass);
 
 	if (ret != 0x20) {
