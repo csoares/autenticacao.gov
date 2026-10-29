@@ -365,7 +365,7 @@ public:
 	BUF_MEM *operator->() const { return m_buf; }
 	operator BUF_MEM *() const { return m_buf; }
 
-	CByteArray toByteArray() const { return CByteArray((unsigned char *)m_buf->data, m_buf->length); }
+	CByteArray toByteArray() const { return CByteArray((unsigned char *)m_buf->data, (unsigned long)m_buf->length); }
 
 private:
 	BUF_MEM *m_buf = nullptr;

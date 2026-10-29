@@ -97,7 +97,7 @@ void BacAuthentication::authenticate(const CByteArray &mrzInfo) {
 	mutual_auth.Append(0x82);
 	mutual_auth.Append(0x00);
 	mutual_auth.Append(0x00);
-	mutual_auth.Append(ifdBacData.Size());
+	mutual_auth.Append((unsigned char)ifdBacData.Size());
 	mutual_auth.Append(ifdBacData);
 	mutual_auth.Append(0x00); // Le
 	iccBacData = sendAPDU(mutual_auth, retValue);
@@ -175,7 +175,7 @@ CByteArray BacAuthentication::decryptData(const CByteArray &data) {
 	return BlockCipherCtx::decrypt<TripleDesCipher>(encryptionKey.GetBytes(), data);
 }
 
-CByteArray arrayFromBufMem(BUF_MEM *mem) { return CByteArray((unsigned char *)mem->data, mem->length); }
+CByteArray arrayFromBufMem(BUF_MEM *mem) { return CByteArray((unsigned char *)mem->data, (unsigned long)mem->length); }
 
 CByteArray BacAuthentication::encryptData(const CByteArray &data) {
 	auto encryptionKey = m_sm.getCBAEncKey();

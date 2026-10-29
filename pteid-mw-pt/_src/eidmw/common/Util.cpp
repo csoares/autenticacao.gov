@@ -517,8 +517,12 @@ EIDMW_CMN_API long read_binary_file(const char *filename, unsigned char **outBuf
 
 	// Seek to the end of the file to determine the file size
 	fseek(file, 0, SEEK_END);
-	size_t fileSize = ftell(file);
+	long fileSize = ftell(file);
 	rewind(file); // Go back to the start of the file
+	if (fileSize < 0) {
+		fclose(file);
+		return -1;
+	}
 
 	// Allocate memory for the entire file
 	*outBuffer = (unsigned char *)malloc(fileSize);
@@ -530,7 +534,7 @@ EIDMW_CMN_API long read_binary_file(const char *filename, unsigned char **outBuf
 
 	// Read the file into the buffer
 	size_t bytesRead = fread(*outBuffer, 1, fileSize, file);
-	if (bytesRead != fileSize) {
+	if (bytesRead != (size_t)fileSize) {
 		fprintf(stderr, "Error reading file\n");
 		free(*outBuffer);
 		fclose(file);

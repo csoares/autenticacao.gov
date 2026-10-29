@@ -911,7 +911,7 @@ EIDMW_SodReport APL_ICAO::verifySodFileIntegrity(const CByteArray &data, CByteAr
 	OpenSSL_add_all_digests();
 
 	const unsigned char *temp = data.GetBytes();
-	size_t length = data.Size();
+	unsigned long length = data.Size();
 	temp += 4; // Skip the ASN.1 Application 23 tag + 3-byte length (DER type 77)
 
 	p7 = d2i_PKCS7(nullptr, &temp, length - 4);
@@ -1007,7 +1007,7 @@ EIDMW_SodReport APL_ICAO::verifySodFileIntegrity(const CByteArray &data, CByteAr
 	}
 
 	unsigned char *p;
-	size_t size = BIO_get_mem_data(out, &p);
+	long size = BIO_get_mem_data(out, &p);
 	out_sod.Append(p, size);
 
 	BIO_free_all(out);
