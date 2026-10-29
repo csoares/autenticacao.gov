@@ -85,10 +85,11 @@ jobs:
         with:
           fetch-depth: 0 # the package version uses the commit count
 
+      # qtshadertools: a dependency of the Qt5Compat.GraphicalEffects QML plugin, deployed by macdeployqt
       - uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          modules: qt5compat
+          modules: qt5compat qtshadertools
           cache: true
 
       - uses: actions/setup-dotnet@v6
@@ -127,6 +128,27 @@ jobs:
           PTEID_PKG_ASSUME_YES: '1'
         # Without the AMA Developer ID certificate the package is signed ad-hoc
         run: ./generate_macos_pkg.sh -
+
+      # macdeployqt skips the dependencies it cannot find: a missing framework only shows when a
+      # QML plugin fails to load at run time
+      - name: Check that the application bundle has every Qt library it links to
+        working-directory: pteid-mw-pt/_src/eidmw/misc/macos-pkg
+        run: |
+          status=0
+          for app in apps/*.app; do
+            while IFS= read -r -d '' f; do
+              file -b "$f" | grep -q Mach-O || continue
+              for dep in $(otool -L "$f" | awk 'NR > 1 && $1 ~ /^@rpath\// {print $1}' | sort -u); do
+                lib=${dep#@rpath/}
+                case "$lib" in
+                  *.framework/*) path="$app/Contents/Frameworks/${lib%%.framework/*}.framework" ;;
+                  *) path="$app/Contents/Frameworks/$lib" ;;
+                esac
+                [ -e "$path" ] || { echo "::error::$f links to $dep, missing from the bundle"; status=1; }
+              done
+            done < <(find "$app/Contents" -type f -print0)
+          done
+          exit $status
 
       - name: Check the deployment target of the packaged binaries
         working-directory: pteid-mw-pt/_src/eidmw/misc/macos-pkg
