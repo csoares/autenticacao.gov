@@ -4315,7 +4315,8 @@ void GAPI::doRegisterCMDCertClose(QString otp) {
 
 bool GAPI::areRootCACertsInstalled() {
 #ifdef WIN32
-	return Concurrent::run(&CERTIFICATES::IsNewRootCACertInstalled);
+	// QFuture no longer converts to its result in Qt 6
+	return Concurrent::run(&CERTIFICATES::IsNewRootCACertInstalled).result();
 #else
 	return false;
 #endif
