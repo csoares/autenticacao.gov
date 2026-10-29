@@ -98,7 +98,7 @@ unsigned long APL_Card::readFile(const char *csPath, CByteArray &oData, unsigned
 		oData = m_reader->getCalReader()->ReadFile(csPath, ulOffset, (ulMaxLength == 0 ? FULL_FILE : ulMaxLength));
 	} catch (CMWException &e) {
 		MWLOG(LEV_ERROR, MOD_APL,
-			  "Error trying to read file error: 0x%x file: %s line: %d, csPath: %s, uloffset: %lu, ulmaxlen: %lu",
+			  "Error trying to read file error: 0x%lx file: %s line: %ld, csPath: %s, uloffset: %lu, ulmaxlen: %lu",
 			  e.GetError(), e.GetFile().c_str(), e.GetLine(), csPath, ulOffset, ulMaxLength);
 		m_reader->CalUnlock();
 		if (e.GetError() == EIDMW_ERR_INCOMPATIBLE_READER)
@@ -1040,7 +1040,7 @@ CByteArray extractPublicKeyFromDG15(CByteArray &dg15_data) {
 	const unsigned char *der_p = dg15_data.GetBytes();
 	int ret = ASN1_get_object(&der_p, &len, &tag, &xclass, dg15_data.Size());
 	if (ret & 0x80) {
-		MWLOG(LEV_ERROR, MOD_APL, "DG15 ASN.1 failed to decode! Error code: %08x", ERR_get_error());
+		MWLOG(LEV_ERROR, MOD_APL, "DG15 ASN.1 failed to decode! Error code: %08lx", ERR_get_error());
 	} else if (tag != 15 && xclass != V_ASN1_APPLICATION) {
 		MWLOG(LEV_ERROR, MOD_APL,
 			  "Malformed DG15: expected tag 0x6F (APPLICATION 15)! Found ASN.1 tag with class: %d and tag number: %d",
@@ -1130,7 +1130,7 @@ EIDMW_ActiveAuthenticationReport APL_ICAO::performActiveAuthentication() {
 			MWLOG(LEV_WARN, MOD_APL, "DG15 not found! Active Authentication not available for this document.");
 			return report;
 		} else {
-			MWLOG(LEV_WARN, MOD_APL, "Active Authentication failed! Error code %08x thrown at %s:%ld", e.GetError(),
+			MWLOG(LEV_WARN, MOD_APL, "Active Authentication failed! Error code %08lx thrown at %s:%ld", e.GetError(),
 				  e.GetFile().c_str(), e.GetLine());
 			return report;
 		}
