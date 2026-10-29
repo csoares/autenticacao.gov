@@ -3677,7 +3677,7 @@ void GAPI::setEventCallbacks(void) {
 			m_callBackHandles[readerName] = readerContext.SetEventCallback(fCallback, pCBData);
 			m_callBackData[readerName] = pCBData;
 		}
-	} catch (PTEID_Exception &e) {
+	} catch (PTEID_Exception &) {
 		emit aboutToSignalCardChanged(ET_UNKNOWN);
 		emit signalCardChanged(ET_UNKNOWN);
 	}
