@@ -509,8 +509,8 @@ EIDMW_CMN_API int vfprintf_s(FILE *stream, const char *format, va_list argptr) {
 #endif
 
 EIDMW_CMN_API long read_binary_file(const char *filename, unsigned char **outBuffer) {
-	FILE *file = fopen(filename, "rb");
-	if (file == NULL) {
+	FILE *file = NULL;
+	if (fopen_s(&file, filename, "rb") != 0 || file == NULL) {
 		perror("Failed to open file");
 		return -1;
 	}
