@@ -228,9 +228,6 @@ std::string getCANFromCache();
 class GAPI : public QObject {
 #define TIMERREADERLIST 5000
 	Q_OBJECT
-	Q_PROPERTY(QMap<IDInfoKey, QString> m_data NOTIFY signalCardDataChanged)
-	Q_PROPERTY(QMap<ICAOInfoKey, QString> m_icaoData NOTIFY signalICAODataChanged)
-	Q_PROPERTY(QMap<AddressInfoKey, QString> m_addressData NOTIFY signalAddressLoaded)
 	Q_PROPERTY(QString persoData MEMBER m_persoData NOTIFY signalPersoDataLoaded)
 
 public:
